@@ -89,6 +89,30 @@ echo " "
 
 #fdisk /dev/mmcblk0
 
+## SUDO Installation
+echo "Lets install sudo"
+echo " "
+#pacman -S sudo
+
+##User Addition
+echo "Lets create an User Account"
+echo " "
+echo " Please enter the name for the user account"
+#read name
+# useradd -m -g users -s /bin/bash -G audio,games,lp,optical,power,scanner,storage,video $name
+addin = "%sudo ALL= '('ALL')' NOPASSWD: ALL"
+
+
+ echo $addin  >  /etc/sudoers.tmp
+ #groupadd sudo
+ usermod -a -G sudo $name
+ echo "Enter the password for new user"
+ echo " "
+ #passwd $name
+ 
+
+
+
 
 
 
