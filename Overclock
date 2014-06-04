@@ -1,0 +1,61 @@
+#!/bin/bash
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+# Run this script after your first boot with archlinux (as root)
+#------------------------------------------------------------------------------------------------------
+#Functions
+function overclock()
+{
+echo "Baby"
+}
+
+
+## To check if its running as Root
+#echo "To check if its running as Root"
+echo " "
+if [ "$UID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+
+## Overclocking Settings
+echo "Welcome to OverClocking"
+echo "Do not change the settings if you so not know about Overclocking"
+echo "
+/*
+ * Your warranty is now void.
+ *
+ * I am not responsible for bricked devices, dead SD cards,
+ * thermonuclear war, or you getting fired because the alarm app failed. Please
+ * do some research if you have any concerns about features included in this ROM
+ * before flashing it! YOU are choosing to make these modifications, and if
+ * you point the finger at me for messing up your device, I will laugh at you.
+ *
+ * Submitting bug reports on nightly builds is the leading 
+ * cause of male impotence.
+ */"
+ echo "Do you want to OverClock ?? [Y/N]: "
+ read opt
+ 
+ 
+ if [ "$opt" == 'y' ];  then
+ {
+ echo "Lets Overclock"
+overclock
+ }
+ else
+ echo "Thank you"
+ fi
+ 
