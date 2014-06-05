@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -17,44 +18,141 @@
 #Functions
 function overclock()
 {
-echo "Baby"
+echo "OverClocking Settings"
+ echo ""
+ echo "Choose among the following:"
+ echo ""
+ echo " 1.Normal Mode"
+ echo " 2.Modest Mode"
+ echo " 3.Medium Mode"
+ echo " 4.High Mode"
+ echo " 5.Turbo Mode"
+echo ""
+
+ read opt
+ case $opt in
+ # Normal Mode
+ 1) echo "You Have Selected Normal Mode"
+ echo ""
+ echo "ARM Frequency : 750Mhz"
+ echo "Core Frequency : 250Mhz"
+ echo "SD-RAM Frequency : 400Mhz"
+ echo "Over Voltage : 0"
+ echo " "
+ echo "Apply the above Settings [y/n]"
+ read opt 
+ if [ "$opt" == 'y' ];  then
+ {
+ echo "Lets Overclock"
+ echo ""
+   
+
+ } 
+ else
+ echo "Thank you"
+ exit
+ fi
+ ;;
+ 
+ 
+ 2) echo "You Have Selected Modest Mode"
+ echo ""
+ ;;
+ 3) echo "You Have Selected Medium Mode"
+ echo ""
+ ;;
+ 4) echo "You Have Selected High Mode"
+ echo ""
+ ;;
+ 5) echo "You Have Selected Turbo Mode"
+ echo ""
+ ;;
+ *) echo "Wrong Choice Entered!!"
+ echo ""
+ overclock
+ ;;
+  
+
+
+esac
+ 
 }
+
+function init()
+{
+echo "Initializing"
+echo " "
+#Normal
+sed  's/arm_freq=750/  /g' /boot/config.old
+sed  's/core_freq=250/  /g' /boot/config.old
+sed  's/sdram_freq=400/  /g' /boot/config.old
+sed  's/over_voltage=0/  /g' /boot/config.old
+
+#Modest
+sed -i 's/arm_freq=800/  /g' /boot/config.old
+sed -i 's/core_freq=300/  /g' /boot/config.old
+sed -i 's/sdram_freq=400/  /g' /boot/config.old
+sed -i 's/over_voltage=0/  /g' /boot/config.old
+
+#Medium
+sed -i 's/arm_freq=900/  /g' /boot/config.old
+sed -i 's/core_freq=333/  /g' /boot/config.old
+sed -i 's/sdram_freq=450/  /g' /boot/config.old
+sed -i 's/over_voltage=2/  /g' /boot/config.old
+
+#High
+sed -i 's/arm_freq=950/  /g' /boot/config.old
+sed -i 's/core_freq=450/  /g' /boot/config.old
+sed -i 's/sdram_freq=450/  /g' /boot/config.old
+sed -i 's/over_voltage=6/  /g' /boot/config.old
+
+#Turbo
+sed -i 's/arm_freq=1000/  /g' /boot/config.old
+sed -i 's/core_freq=500/  /g' /boot/config.old
+sed -i 's/sdram_freq=500/  /g' /boot/config.old
+sed -i 's/over_voltage=6/  /g' /boot/config.old
+}
+
+#sed 's:^\s*#arm_freq=750:0:g' /boot/config.old
 
 
 ## To check if its running as Root
 #echo "To check if its running as Root"
 echo " "
-if [ "$UID" -ne 0 ]
+if [ "$UID" -ne 0 ]   
   then echo "Please run as root"
   exit
 fi
 
+#Backup 
+echo "Lets take a back-up of the old settings first!!"
+cp /boot/config.txt /boot/config.old
+echo "Backups is made as ''config.old''"
 
 ## Overclocking Settings
 echo "Welcome to OverClocking"
 echo "Do not change the settings if you so not know about Overclocking"
 echo "
 /*
- * Your warranty is now void.
- *
  * I am not responsible for bricked devices, dead SD cards,
  * thermonuclear war, or you getting fired because the alarm app failed. Please
- * do some research if you have any concerns about features included in this ROM
- * before flashing it! YOU are choosing to make these modifications, and if
+ * do some research if you have any concerns about features included in this Script
+ * before running it! YOU are choosing to make these modifications, and if
  * you point the finger at me for messing up your device, I will laugh at you.
- *
- * Submitting bug reports on nightly builds is the leading 
- * cause of male impotence.
  */"
  echo "Do you want to OverClock ?? [Y/N]: "
- read opt
- 
- 
+ read opt 
  if [ "$opt" == 'y' ];  then
  {
  echo "Lets Overclock"
-overclock
- }
+ echo ""
+ echo "By Default Normal Mode is applied"
+ echo ""
+ 
+ echo '#Normal Mode'
+  
+ overclock
+ } 
  else
  echo "Thank you"
  fi
