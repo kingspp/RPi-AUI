@@ -19,6 +19,8 @@ Add User
 Password Manager **
 User Utilities **
 Overclocking with Custom Mode (refer oc.sh)
+Change Hostname
+
 
 ##oc.sh
 # OverClocking PI offers
