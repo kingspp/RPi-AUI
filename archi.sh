@@ -20,7 +20,7 @@
 
 function ask()
 {
-echo "Are you sure? [Y/N]: "
+
 read ch
 if [ "$ch" == 'y' ]; then
 echo ""
@@ -36,7 +36,6 @@ echo ""
 echo "Thank You"
 echo "By Kingspp"
 echo " Reboot the system to apply changes?? [y/n]"
-read ch
 read ch
 if [ "$ch" == 'y' ]; then
 reboot
@@ -158,7 +157,9 @@ echo "3. Partition Manager **"
 echo "4. Add Users"
 echo "5. OverClocking PI"
 echo "6. Change Passwords **"
-echo "7.Install Utilities **"
+echo "7. Install Utilities **"
+echo "8. Change Locale **"
+echo "9. Hostname"
 echo "##########################################################################################################################################################"
 echo ""
 echo "Select an option"
@@ -208,6 +209,31 @@ echo ""
 ask
 util
 ;;
+
+8) echo "Do you want to change the Locale? [y/n]"
+ask
+echo "Default Locale: "
+sleep 1
+grep -v ^# /etc/locale.gen
+;;
+
+9)  echo "Your hostname is: "
+hostname
+echo "Do you want to change the host name? [y/n]"
+ask
+cp /etc/hostname /etc/hostname.old
+rm /etc/hostname
+touch /etc/hostname
+echo "Enter a Hostname:"
+read hn
+echo "$hn" >> /etc/hostname
+echo ""
+echo "Your Hostname is: "
+hostname
+thank
+
+
+
 
 esac
 
