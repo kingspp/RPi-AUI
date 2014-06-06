@@ -1,1 +1,36 @@
-#This is a Feature List for the AIO Script
+#This is a Feature List 
+
+##archi.sh
+# Arch Install Script offers
+Ping Checking the Device
+Updating the Arch Linux
+Installing SUDO
+Adding User to sudo
+System Utilities
+-- archlinux-keyring
+--ignore filesystem
+--filesystem --force
+--bash # To install bash for scripting
+--coreutils # To install Core-Utilities
+--util-linux # To install Linux-Utilities
+--devtools # To install Development Tools
+Partition Manager **
+Add User
+Password Manager **
+User Utilities **
+Overclocking with Custom Mode (refer oc.sh)
+
+##oc.sh
+# OverClocking PI offers
+5 Modes of OVerclocking
+--Normal Mode
+--Moderate Mode
+--Medium Mode
+--High Mode
+--Turbo Mode
+Custom Mode Availability
+Secure checking for Custom Mode
+Secure  Config.txt
+
+#disp.sh
+## Display different features of PI
