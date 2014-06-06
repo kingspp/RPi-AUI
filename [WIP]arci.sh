@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -18,6 +16,7 @@ echo "##################################################################"
 echo "## 		Welcome to the Arch Linux - Raspberry Pi Setup  ##"
 echo "## 		By kingspp      		        	##"
 echo "##################################################################"
+sleep 1
 
 #---------------------------------------------------------------------------
 # Functions Declared Here
@@ -25,9 +24,11 @@ echo "##################################################################"
 function pingcheck
 {
 echo "To check if the pi got Internet??!!"
+sleep 1
 if ping -c 5 google.com &> /dev/null
 then
-  echo "Success!"
+  echo "Success! Pi's got net!!'"
+  sleep 1
   echo " "
 else
   echo "Fail! Please connect to the Internet and Try Again"
@@ -44,22 +45,26 @@ if [ "$UID" -ne 0 ]
   then echo "Please run as root"
   exit
 fi
+echo "User running as root!!"
+sleep 1
 
 
 ## Ping Check
-#pingcheck # To check for an Internet Connection
+pingcheck # To check for an Internet Connection
 echo " "
 
 ## Password Update
 echo "Please enter a new password for the root"
 echo " "
 #passwd # To set new password for Root User
+sleep 1
 
 
 ## Installation
 echo "Updating Arch Linux to its Latest Release"
 echo " "
 # pacman -Syu  # To update the Arch Linux to the latest Release
+sleep 1
 echo "Instlling Utilities"
 echo " "
 #pacman-key --init
@@ -71,6 +76,7 @@ echo " "
 #pacman  -S coreutils # To install Core-Utilities
 #pacman  -S util-linux # To install Linux-Utilities
 #pacman  -S devtools # To install Development Tools
+sleep 1
 
 
 
@@ -93,41 +99,34 @@ echo " "
 ## SUDO Installation
 echo "Lets install sudo"
 echo " "
+sleep 1
 #pacman -S sudo
 
-##User Addition
+##User Addition (In Progress)
 echo "Lets create an User Account"
 echo " "
 echo " Please enter the name for the user account"
-#read name
-# useradd -m -g users -s /bin/bash -G audio,games,lp,optical,power,scanner,storage,video $name
-addin = "%sudo ALL= '('ALL')' NOPASSWD: ALL"
+read name
+useradd -m -g users -s /bin/bash -G audio,games,lp,optical,power,scanner,storage,video $name
+
+echo "##
+## User privilege specification
+##
+root ALL=(ALL) ALL
+pi ALL=(ALL) ALL" >>  /etc/sudoers
 
 
- echo $addin  >  /etc/sudoers.tmp
- #groupadd sudo
- usermod -a -G sudo $name
- echo "Enter the password for new user"
- echo " "
- #passwd $name
+groupadd sudo
+usermod -a -G sudo $name
+echo "Enter the password for new user"
+echo " "
+ passwd $name
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+ 
+##Overclocking
+echo "Overclocking"
+echo "Please make sure oc.sh is present in the same directory"
+sleep 1
+chmod +x oc.sh
+#./oc.sh
