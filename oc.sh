@@ -234,7 +234,7 @@ echo "
 
 function top()
 {
-#clear
+clear
 echo "#######################################################"
 echo "###              Overclocking Script by kingspp     ###"
 echo "######################################################"
@@ -256,19 +256,9 @@ sleep 1
 }
 
 
-function ui()
+function cpu_f()
 {
-top
-backu
-dis
-
-
-## Overclocking Settings
-
- 
- echo " Choose from the options "
- echo ""
- echo "1.Normal Mode
+echo "1.Normal Mode
 ARM Frequency=750 Mhz
 Core Frequency=250 Mhz
 SD-RAM Frequency=400 Mhz
@@ -380,6 +370,77 @@ exit
 esac
 
 
+}
+
+function gov()
+{
+
+echo "Governors"
+echo ""
+echo "Available Governors"
+echo "1. Conservative 
+2. Userspace 
+3. Powersave 
+4. Ondemand 
+5. Performance
+"
+echo ""
+echo "Enter your Preferred Governor: [1-5]: "
+read gv
+case $gv in
+1) echo "You have selected Conservative"
+ask
+echo "conservative" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+;;
+2) echo "You have selected Userspace"
+ask
+echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+;;
+3) echo "You have selected Powersave"
+ask
+echo "powersave" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+;;
+4) echo "You have selected Ondemand"
+ask
+echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+;;
+5) echo "You have selected Performance"
+ask
+echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+;;
+esac
+fin
+thank
+
+}
+
+
+function ui()
+{
+top
+backu
+dis
+echo "Overclocking Settings:"
+echo ""
+echo "1. CPU Settings"
+echo "2. Governor"
+echo ""
+echo "Enter your choice [1-2]: "
+read opt
+case $opt in
+1) cpu_f
+;;
+2) gov
+;;
+esac
+
+
+## Overclocking Settings
+
+ 
+ echo " Choose from the options "
+ echo ""
+ 
  
 }
 
