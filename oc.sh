@@ -18,6 +18,19 @@
 #-------------------------------------------------------------------------------------------------------------
 #Functions
 
+function checkr()
+{
+
+if [ "$UID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+echo "User running as root!!"
+echo "Got Superuser ability !!"
+echo ""
+sleep 1
+}
+
 function defconf()
 {
 echo "# uncomment if you get no picture on HDMI for a default 'safe' mode
@@ -203,37 +216,9 @@ fin
 
 }
 
-#--------------------------------------------------------------------------------------------------------
 
-
-echo "#######################################################"
-echo "###              Overclocking Script by kingspp     ###"
-echo "######################################################"
-echo ""
-sleep 1
-
-## To check if its running as Root
-echo "To check if its running as Root"
-echo " "
-if [ "$UID" -ne 0 ]
-  then echo "Please run as root"
-  exit
-fi
-
-echo "Got Superuser ability !!"
-echo ""
-echo "Lets backup old config.txt for emergency"
-cp /boot/config.txt /boot/config.old
-echo  "Success! Backed up as config.old"
-sleep 1
-rm /boot/config.txt
-touch /boot/config.txt
-defconf
-sleep 1
-
-
-
-## Overclocking Settings
+function dis()
+{
 echo "Welcome to OverClocking"
 echo "Do not change the settings if you so not know about Overclocking"
 echo "
@@ -244,6 +229,42 @@ echo "
  * before running it! YOU are choosing to make these modifications, and if
  * you point the finger at me for messing up your device, I will laugh at you.
  */"
+ sleep 1
+}
+
+function top()
+{
+#clear
+echo "#######################################################"
+echo "###              Overclocking Script by kingspp     ###"
+echo "######################################################"
+echo ""
+sleep 1
+}
+
+function backu()
+{
+
+echo "Lets backup old config.txt for emergency"
+cp /boot/config.txt /boot/config.old
+echo  "Success! Backed up as config.old"
+sleep 1
+rm /boot/config.txt
+touch /boot/config.txt
+defconf
+sleep 1
+}
+
+
+function ui()
+{
+top
+backu
+dis
+
+
+## Overclocking Settings
+
  
  echo " Choose from the options "
  echo ""
@@ -351,7 +372,28 @@ fin
 ask
 custom
 ;;
+
+
+q)  echo "Thank you"
+exit
+;;
 esac
+
+
+ 
+}
+
+#--------------------------------------------------------------------------------------------------------
+
+
+
+
+## To check if its running as Root
+checkr
+ui
+
+
+
 
 
 
