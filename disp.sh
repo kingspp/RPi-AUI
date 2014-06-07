@@ -1,5 +1,5 @@
 #!/bin/bash
-# Overclocking PI v1.0
+# Display Pi v1.0
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -69,21 +69,32 @@ name=$line
 done < $1
 }
 
+function top()
+{
+echo "#######################################################"
+echo "###              Display Script by kingspp     ###"
+echo "######################################################"
+echo ""
+sleep 1
+}
+
 
 function ui()
 {
-
-echo "##########################################################################################################################################################"
+clear
+top
+echo "########################################################################"
 echo "1.Overview"
 echo "2.Configuration"
 echo "3.Overclocking Settings"
 echo "4..Temperature"
 echo "5.Mounting Options"
-echo "##########################################################################################################################################################"
+echo "########################################################################"
 sleep 1
-echo "Choose among the following"
+echo "Choose among the following [1-5]"
 echo ""
 read opt
+echo ""
 case $opt in
 1) overview
 ;;
@@ -108,11 +119,7 @@ esac
 
 
 
-echo "#######################################################"
-echo "###              Display Script by kingspp     ###"
-echo "######################################################"
-echo ""
-sleep 1
+
 ## To check if its running as Root
 checkr
 ui
