@@ -59,16 +59,7 @@ else
 fi
 }
 
-function checkr()
-{
 
-if [ "$UID" -ne 0 ]
-  then echo "Please run as root"
-  exit
-fi
-echo "User running as root!!"
-sleep 1
-}
 
 function defins()
 {
@@ -150,7 +141,9 @@ function ui
 {
 
 ##User Interface
-echo "##########################################################################################################################################################"
+clear
+top
+echo "########################################################"
 echo "1. Ping Check"
 echo "2. Arch Linux Update"
 echo "3. Partition Manager **"
@@ -160,7 +153,7 @@ echo "6. Change Passwords **"
 echo "7. Install Utilities **"
 echo "8. Change Locale **"
 echo "9. Hostname"
-echo "##########################################################################################################################################################"
+echo "########################################################"
 echo ""
 echo "Select an option"
 read opt
@@ -238,14 +231,19 @@ thank
 esac
 
 }
-#-------------------------------------------------------------------------------
 
-
+function top()
+{
 echo "##################################################################"
 echo "## 		Welcome to the Arch Linux - Raspberry Pi Setup  ##"
 echo "## 		By kingspp      		        	##"
 echo "##################################################################"
 sleep 1
+}
+#-------------------------------------------------------------------------------
+
+
+
 ## To check if its running as Root
 echo "To check if its running as Root"
 echo " "
