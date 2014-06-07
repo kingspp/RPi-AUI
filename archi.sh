@@ -73,8 +73,6 @@ echo " "
 pacman-key --init
 pacman -S archlinux-keyring
 pacman-key --populate archlinux
-pacman -Syu --ignore filesystem
-pacman -S filesystem --force
 pacman  -S bash # To install bash for scripting
 pacman  -S coreutils # To install Core-Utilities
 pacman  -S util-linux # To install Linux-Utilities
