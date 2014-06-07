@@ -1,7 +1,7 @@
 #This is a Feature List 
 
 ##archi.sh
-# Arch Install Script offers
+# Arch Install Script v1.1 offers
 Ping Checking the Device
 Updating the Arch Linux
 Installing SUDO
@@ -23,7 +23,7 @@ Change Hostname
 
 
 ##oc.sh
-# OverClocking PI offers
+# OverClocking PI v1.1 offers
 5 Modes of OVerclocking
 --Normal Mode
 --Moderate Mode
@@ -33,6 +33,8 @@ Change Hostname
 Custom Mode Availability
 Secure checking for Custom Mode
 Secure  Config.txt
+Governor Options
+
 
 #disp.sh
 ## Display different features of PI
