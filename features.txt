@@ -37,4 +37,17 @@ Governor Options
 
 
 #disp.sh
+#Display Pi v1.0
+Overview:
+--Pi Version
+--Device Specifics
+----Pi Temperature
+----ARM Frequency
+----Core Frequency
+----Core Voltage
+----ARM Memory
+----GPU Memory
+----Governor in use
+--Config.txt Oprions
+--Codecs Enabled
 ## Display different features of PI
