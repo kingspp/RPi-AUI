@@ -23,7 +23,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to the Arch Linux - Raspberry Pi Setup v2.0    ##"
+echo "##   Welcome to Arch Linux - Raspberry Pi Setup v2.0        ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
@@ -185,7 +185,7 @@ echo ""
 echo "########################################################"
 echo "1. Ping Check			d. Display Pi v1.1"
 echo "2. Arch Linux Update		o. OverClocking PI v1.2"
-echo "3. Partition Manager **		u. Utility Pi v1.0"	
+echo "3. Partition Manager **		u. Utility Pi v1.0 **"	
 echo "4. Add Users"
 echo "5. Change Passwords **"
 echo "6. Change Locale **"
@@ -281,10 +281,7 @@ read s
 ui
 ;;
 
-u) echo "Do you want to install Utilities? [y/n]"
-echo ""
-ask
-util
+u) util
 read s
 ui
 ;;
