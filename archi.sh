@@ -194,7 +194,7 @@ echo " ** --> To do (Be Cautious)"
 echo ""
 echo "########################################################"
 echo "1. Ping Check			d.Display Pi v1.1"
-echo "2. Arch Linux Update		o.OverClocking PI v1.0"
+echo "2. Arch Linux Update		o.OverClocking PI v1.1"
 echo "3. Partition Manager **"
 echo "4. Add Users"
 
