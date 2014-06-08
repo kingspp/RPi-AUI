@@ -1,5 +1,5 @@
 #!/bin/bash
-# Utility Pi v1.0
+# Utility Pi v1.1
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +21,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to Utility Pi v1.0				    ##"
+echo "##   Welcome to Utility Pi v1.1				    ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
@@ -40,9 +40,122 @@ echo ""
 sleep 1
 }
 
+function ask()
+{
+echo "Are you sure? [y/n]: "
+read ch
+if [ "$ch" == 'y' ]; then
+echo ""
+else
+thank
+fi
+}
+
+function thank()
+{
+echo ""
+echo ""
+echo "Thank You"
+echo "By Kingspp"
+sleep 1
+clear
+exit
+}
+
+function view
+{
+top
+echo " Utilities available:"
+echo ""
+echo "1. Transmission - A torrent Client"
+echo "2. Webmin - Administer Raspberry Pi from browser"
+echo "3. Samba - Windows Remote Client"
+echo "4. NTFS-3G - Mount NTFS Partitions"
+echo "5. Git - Git client for Github"
+echo "6. VSFTPD - FTP client for Pi"
+echo "7. Nano - File Editor for Pi"
+echo ""
+echo "Please Select from the options [1-7]: "
+read opt
+echo ""
+case $opt in
+1)  echo "You have Selected Transmission"
+ask
+pacman -S transmission
+ui
+;;
+
+2)  echo "You have Selected Webmin"
+ask
+pacman -S webmin
+ui
+;;
+
+3)  echo "You have Selected Samba"
+ask
+pacman -S samba
+ui
+;;
+
+4)  echo "You have Selected NTFS-3G"
+ask
+pacman -S ntfs-3g
+ui
+;;
+
+5)  echo "You have Selected Git"
+ask
+pacman -S git
+ui
+;;
+
+6)  echo "You have Selected VSFTPD"
+ask
+pacman -S vsftpd
+ui
+;;
+
+7)  echo "You have Selected Nano"
+ask
+pacman -S nano
+ui
+;;
+
+
+esac
+
+}
+
+function defins()
+{
+top
+echo "Install Essential Utilities?"
+ask
+pacman -S transmission samba webmin ntfs-3g nano vsftpd git
+read s
+ui
+}
+
 function ui
 {
 top
+echo "Press q to exit"
+echo ""
+echo "1. View all utilities"
+echo "2. Default Installation"
+echo ""
+echo "Enter your choice [1-2]: "
+read opt
+case $opt in
+1) view
+;;
+
+2) defins
+;;
+
+q)thank
+;;
+esac
 }
 #-----------------------------------------------------------------------------------------------
 checkr
