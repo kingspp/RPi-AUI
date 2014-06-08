@@ -1,7 +1,7 @@
 #This is a Feature List 
 
 ##archi.sh
-# Arch Install Script v1.1 offers
+# Arch Install Script v1.2 offers
 Ping Checking the Device
 Updating the Arch Linux
 Installing SUDO
@@ -20,6 +20,8 @@ Password Manager **
 User Utilities **
 Overclocking with Custom Mode (refer oc.sh)
 Change Hostname
+Display Pi v1.1
+Overclocking Pi v1.1
 
 
 ##oc.sh
@@ -37,7 +39,7 @@ Governor Options
 
 
 #disp.sh
-#Display Pi v1.0
+#Display Pi v1.1
 Overview:
 --Pi Version
 --Device Specifics
@@ -48,6 +50,9 @@ Overview:
 ----ARM Memory
 ----GPU Memory
 ----Governor in use
---Config.txt Oprions
---Codecs Enabled
+----Config.txt Options
+----Codecs Enabled
+--Temperature View
+--Mount View
+--Config.txt View
 ## Display different features of PI
