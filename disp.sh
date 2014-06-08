@@ -84,29 +84,55 @@ for codec in H264 MPG2 WVC1 MPG4 MJPG WMV9 ; do
      echo -e "$codec:\t$(/opt/vc/bin/vcgencmd codec_enabled $codec)" ; 
  done 
  echo ""
+
  
-thank
-exit
+ 
 }
 
 function mountm()
 {
-echo "To view fstab file"
+top
+echo "To view fstab file . . ."
+echo ""
 sleep 1
-
-while (1)
-do 
-name=$line
-     echo $name
-done < $1
+cat /etc/fstab
+echo ""
 }
+
+function tempr()
+{
+top
+echo "Raspberry Pi Temperature:"
+echo ""
+sleep 1
+/opt/vc/bin/vcgencmd measure_temp 
+echo ""
+
+}
+
+function configd()
+{
+top
+echo "Current Config.txt Configuration:"
+echo ""
+echo "Config.txt Options:"
+echo "---------------------------"
+/opt/vc/bin/vcgencmd get_config int
+echo ""
+
+
+}
+
 
 function top()
 {
-echo "#######################################################"
-echo "###              Display Script by kingspp     ###"
-echo "######################################################"
-echo ""
+clear
+echo "##############################################################"
+echo "##   Welcome to Display Pi v1.1  			    ##"
+echo "##   -- By kingspp                                          ##"
+echo "##############################################################"
+echo "  "
+
 sleep 1
 }
 
@@ -114,12 +140,15 @@ function ui()
 {
 clear
 top
+echo "Press q to quit"
+echo " ** --> To do (Be Cautious)"
+echo ""
 echo "########################################################################"
-echo "1.Overview"
-echo "2.Configuration **"
-echo "3.Overclocking Settings **"
-echo "4..Temperature **"
-echo "5.Mounting Options **"
+echo "1. Overview"
+echo "2. Configuration "
+echo "3. Overclocking Settings **"
+echo "4. Temperature "
+echo "5. Mounting Settings "
 echo "########################################################################"
 echo "Choose among the following [1-5]"
 echo ""
@@ -127,15 +156,29 @@ read opt
 echo ""
 case $opt in
 1) overview
+read s
+ui
 ;;
 
-2) config
+2) configd
+read s
+ui
 ;;
 
+4) tempr
+read s
+ui
+;;
 
 5) mountm
+read s
+ui
 ;;
 
+q) thank
+clear
+exit
+;;
 esac
 }
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -146,4 +189,3 @@ esac
 ## To check if its running as Root
 checkr
 ui
-overview
