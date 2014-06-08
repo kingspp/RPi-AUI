@@ -1,4 +1,5 @@
 #!/bin/bash
+#Arch Installer- Raspberry Pi v2.0
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -22,7 +23,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to the Arch Linux - Raspberry Pi Setup v1.2    ##"
+echo "##   Welcome to the Arch Linux - Raspberry Pi Setup v2.0    ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
