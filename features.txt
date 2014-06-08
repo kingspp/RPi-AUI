@@ -1,0 +1,69 @@
+#This is a Feature List 
+
+##archi.sh
+# Arch Install Script v1.2 offers
+Ping Checking the Device
+Updating the Arch Linux
+Installing SUDO
+Adding User to sudo
+System Utilities
+-- archlinux-keyring
+--ignore filesystem
+--filesystem --force
+--bash # To install bash for scripting
+--coreutils # To install Core-Utilities
+--util-linux # To install Linux-Utilities
+--devtools # To install Development Tools
+Partition Manager **
+Add User
+Password Manager **
+User Utilities **
+Overclocking with Custom Mode (refer oc.sh)
+Change Hostname
+Display Pi v1.1
+Overclocking Pi v1.1
+
+
+##oc.sh
+# OverClocking PI v1.1 offers
+5 Modes of OVerclocking
+--Normal Mode
+--Moderate Mode
+--Medium Mode
+--High Mode
+--Turbo Mode
+Custom Mode Availability
+Secure checking for Custom Mode
+Secure  Config.txt
+Governor Options
+
+
+#disp.sh
+#Display Pi v1.1
+Overview:
+--Pi Version
+--Device Specifics
+----Pi Temperature
+----ARM Frequency
+----Core Frequency
+----Core Voltage
+----ARM Memory
+----GPU Memory
+----Governor in use
+----Config.txt Options
+----Codecs Enabled
+--Temperature View
+--Mount View
+--Config.txt View
+## Display different features of PI
+
+#util.sh
+#Utility Pi v1.1
+Install Utilities
+--Transmission
+--Webui
+--Samba
+--Vsftpd
+--Git
+--Nano
+--Ntfs-3G
