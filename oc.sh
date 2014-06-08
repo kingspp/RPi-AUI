@@ -1,5 +1,5 @@
 #!/bin/bash
-# Overclocking PI v1.1
+# Overclocking PI v1.2
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -102,6 +102,7 @@ echo "Rebooting . . . ."
 sleep 2
 reboot
 else
+clear
 exit
 fi
 }
@@ -121,6 +122,7 @@ function fin()
 echo "Settings applied successfully"
 echo ""
 sleep 1
+ui
 thank
 }
 
@@ -235,11 +237,13 @@ echo "
 function top()
 {
 clear
-echo "#######################################################"
-echo "###              Overclocking Script by kingspp     ###"
-echo "######################################################"
-echo ""
+echo "##############################################################"
+echo "##   Welcome to the OverClocking Pi  v1.1   		    ##"
+echo "##   -- By kingspp                                          ##"
+echo "##############################################################"
+echo "  "
 sleep 1
+
 }
 
 function backu()
@@ -258,6 +262,7 @@ sleep 1
 
 function cpu_f()
 {
+top
 echo "1.Normal Mode
 ARM Frequency=750 Mhz
 Core Frequency=250 Mhz
@@ -364,9 +369,7 @@ custom
 ;;
 
 
-q)  echo "Thank you"
-exit
-;;
+
 esac
 
 
@@ -374,7 +377,7 @@ esac
 
 function gov()
 {
-
+top
 echo "Governors"
 echo ""
 echo "Available Governors"
@@ -418,6 +421,8 @@ thank
 function ui()
 {
 top
+echo "Press q to quit"
+echo ""
 backu
 dis
 echo "Overclocking Settings:"
@@ -432,9 +437,11 @@ case $opt in
 ;;
 2) gov
 ;;
+
+
+q) thank
+;;
 esac
-
-
 ## Overclocking Settings
 
  
