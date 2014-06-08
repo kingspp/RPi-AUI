@@ -39,7 +39,6 @@ echo "User running as root!!"
 sleep 1
 }
 
-
 function ask()
 {
 read ch
@@ -81,10 +80,7 @@ else
   echo "Fail! Please connect to the Internet and Try Again"
   echo "  "
 fi
-
 }
-
-
 
 function defins()
 {
@@ -157,13 +153,9 @@ sleep 1
 function util()
 {
 top
-## SUDO Installation
-echo "Lets install sudo"
-echo " "
-sleep 1
-#pacman -S sudo
+chmod +x util.sh
+./util.sh
 }
-
 
 function hname()
 {
@@ -180,29 +172,24 @@ echo "$hn" >> /etc/hostname
 echo ""
 echo "Your Hostname is: "
 hostname
-
 }
-
 
 function ui
 {
-
 ##User Interface
 top
 echo "Press q to quit"
 echo " ** --> To do (Be Cautious)"
 echo ""
 echo "########################################################"
-echo "1. Ping Check			d.Display Pi v1.1"
-echo "2. Arch Linux Update		o.OverClocking PI v1.1"
-echo "3. Partition Manager **"
+echo "1. Ping Check			d. Display Pi v1.1"
+echo "2. Arch Linux Update		o. OverClocking PI v1.2"
+echo "3. Partition Manager **		u. Utility Pi v1.0"	
 echo "4. Add Users"
-
-echo "6. Change Passwords **"
-echo "7. Install Utilities **"
-echo "8. Change Locale **"
-echo "9. Hostname"
-echo "10.Default Installation"
+echo "5. Change Passwords **"
+echo "6. Change Locale **"
+echo "7. Hostname"
+echo "8. Default Installation"
 echo "########################################################"
 echo ""
 echo "Select an option"
@@ -239,19 +226,7 @@ read s
 ui
 ;;
 
-o) echo "Do you want to OverClock PI? [y/n]"
-echo ""
-ask
-echo "Overclocking"
-echo "Please make sure oc.sh is present in the same directory"
-sleep 1
-chmod +x oc.sh
-./oc.sh
-read s
-ui
-;;
-
-6) echo "Do you want to change Passwords? [y/n]"
+5) echo "Do you want to change Passwords? [y/n]"
 echo ""
 ask
 passm
@@ -259,15 +234,7 @@ read s
 ui
 ;;
 
-7) echo "Do you want to install Utilities? [y/n]"
-echo ""
-ask
-util
-read s
-ui
-;;
-
-8) echo "Do you want to change the Locale? [y/n]"
+6) echo "Do you want to change the Locale? [y/n]"
 ask
 echo "Default Locale: "
 sleep 1
@@ -276,12 +243,12 @@ read s
 ui
 ;;
 
-9)  hname
+7)  hname
 read s
 ui
 ;;
 
-10) echo "Default Installation: "
+8) echo "Default Installation: "
 pingcheck
 defins
 addu
@@ -301,19 +268,34 @@ read s
 ui
 ;;
 
+o) echo "Do you want to OverClock PI? [y/n]"
+echo ""
+ask
+echo "Overclocking"
+echo "Please make sure oc.sh is present in the same directory"
+sleep 1
+chmod +x oc.sh
+./oc.sh
+read s
+ui
+;;
+
+u) echo "Do you want to install Utilities? [y/n]"
+echo ""
+ask
+util
+read s
+ui
+;;
+
 q) thank
 clear
 exit
 ;;
 esac
-
 }
 
-
 #-------------------------------------------------------------------------------
-
-
-
 ## To check if its running as Root
 echo "To check if its running as Root"
 echo " "
