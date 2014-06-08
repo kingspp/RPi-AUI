@@ -185,7 +185,7 @@ echo ""
 echo "########################################################"
 echo "1. Ping Check			d. Display Pi v1.1"
 echo "2. Arch Linux Update		o. OverClocking PI v1.2"
-echo "3. Partition Manager **		u. Utility Pi v1.0 **"	
+echo "3. Partition Manager **		u. Utility Pi v1.1"	
 echo "4. Add Users"
 echo "5. Change Passwords **"
 echo "6. Change Locale **"
@@ -282,8 +282,6 @@ ui
 ;;
 
 u) util
-read s
-ui
 ;;
 
 q) thank
@@ -292,7 +290,6 @@ exit
 ;;
 esac
 }
-
 #-------------------------------------------------------------------------------
 ## To check if its running as Root
 echo "To check if its running as Root"
