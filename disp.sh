@@ -83,10 +83,7 @@ echo "--------------------------"
 for codec in H264 MPG2 WVC1 MPG4 MJPG WMV9 ; do 
      echo -e "$codec:\t$(/opt/vc/bin/vcgencmd codec_enabled $codec)" ; 
  done 
- echo ""
-
- 
- 
+ echo "" 
 }
 
 function mountm()
@@ -107,7 +104,6 @@ echo ""
 sleep 1
 /opt/vc/bin/vcgencmd measure_temp 
 echo ""
-
 }
 
 function configd()
@@ -119,10 +115,7 @@ echo "Config.txt Options:"
 echo "---------------------------"
 /opt/vc/bin/vcgencmd get_config int
 echo ""
-
-
 }
-
 
 function top()
 {
@@ -132,7 +125,6 @@ echo "##   Welcome to Display Pi v1.1  			    ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
-
 sleep 1
 }
 
@@ -182,10 +174,6 @@ exit
 esac
 }
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
 ## To check if its running as Root
 checkr
 ui
