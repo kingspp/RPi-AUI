@@ -67,3 +67,6 @@ Install Utilities
 --Git
 --Nano
 --Ntfs-3G
+
+#command.sh
+#Command Pi v1.0
