@@ -74,6 +74,7 @@ echo "4. NTFS-3G - Mount NTFS Partitions"
 echo "5. Git - Git client for Github"
 echo "6. VSFTPD - FTP client for Pi"
 echo "7. Nano - File Editor for Pi"
+echo "8. XRDP - Windows RDP Client for Arch"
 echo ""
 echo "Please Select from the options [1-7]: "
 read opt
@@ -121,6 +122,15 @@ pacman -S nano
 ui
 ;;
 
+8)  echo "You have Selected XRDP"
+ask
+pacman -S xrdp
+ui
+;;
+
+
+
+
 
 esac
 
@@ -131,7 +141,7 @@ function defins()
 top
 echo "Install Essential Utilities?"
 ask
-pacman -S transmission samba webmin ntfs-3g nano vsftpd git
+pacman -S transmission samba webmin ntfs-3g nano vsftpd git xrdp
 read s
 ui
 }
