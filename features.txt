@@ -1,7 +1,7 @@
 #This is a Feature List 
 
 ##archi.sh
-# Arch Install Script v1.2 offers
+# Arch Install Script v3.0 offers
 Ping Checking the Device
 Updating the Arch Linux
 Installing SUDO
@@ -27,7 +27,7 @@ Command Pi v1.0
 
 
 ##oc.sh
-# OverClocking PI v1.1 offers
+# OverClocking PI v1.2 offers
 5 Modes of OVerclocking
 --Normal Mode
 --Moderate Mode
