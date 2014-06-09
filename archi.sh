@@ -1,5 +1,6 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v2.0
+#Arch Installer- Raspberry Pi v3.0
+#Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -261,7 +262,14 @@ read s
 ui
 ;;
 
-d) echo " You have selected Display Pi v1.0"
+c) echo "You have selectee Command Pi"
+sleep 1
+chmod +x command.sh
+./command.sh
+;;
+
+d) echo " You have selected Display Pi "
+sleep 1
 chmod +x disp.sh
 ./disp.sh
 read s
@@ -280,7 +288,9 @@ read s
 ui
 ;;
 
-u) util
+u) echo "Toy have selected Utility Pi "
+sleep 1
+util
 ;;
 
 q) thank
