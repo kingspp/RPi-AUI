@@ -1,19 +1,19 @@
 #!/bin/bash
-# Utility Pi v1.1
-#This pogam is free software: you can redistribute it and/or modify
-#it unde the tems of the GNU General Public License as published by
-#the Fee Softwae Foundation, either version 3 of the License, or
-#(at you option) any late version.
+# Command Pi v1.1
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
 #
-#This pogam is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied waanty of
-#MERCHANTABILITY o FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU Geneal Public License fo more details.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
 #
-#You should have eceived a copy of the GNU Geneal Public License
-#along with this pogam.  If not, see <http://www.gnu.org/licenses/>.
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
-# Run this scipt afte your first boot with archlinux (as root)
+# Run this script after your first boot with archlinux (as root)
 #------------------------------------------------------------------------------------------------
 function top()
 {
@@ -25,13 +25,3 @@ echo "##############################################################"
 echo "  "
 sleep 1
 }
-
-
-function ui
-{
-top
-}
-
----------------------------------------------------------------------
-
-ui
