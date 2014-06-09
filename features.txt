@@ -21,7 +21,9 @@ User Utilities **
 Overclocking with Custom Mode (refer oc.sh)
 Change Hostname
 Display Pi v1.1
-Overclocking Pi v1.1
+Overclocking Pi v1.2
+Utility Pi v1.0
+Command Pi v1.0
 
 
 ##oc.sh
