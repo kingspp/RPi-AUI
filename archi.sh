@@ -94,13 +94,13 @@ function defins()
   echo "Installing utilities"
   echo " "
   pacman-key --init
-  pacman -S archlinux-keyring
+  pacman -S --noconfirm archlinux-keyring
   pacman-key --populate archlinux
-  pacman  -S bash # To install bash for scripting
-  pacman  -S coreutils # To install Core-Utilities
-  pacman  -S util-linux # To install Linux-Utilities
-  pacman  -S devtools # To install Development Tools
-  pacman -S git
+  pacman  -S --noconfirm bash # To install bash for scripting
+  pacman  -S --noconfirm coreutils # To install Core-Utilities
+  pacman  -S --noconfirm util-linux # To install Linux-Utilities
+  pacman  -S --noconfirm devtools # To install Development Tools
+  pacman -S --noconfirm git
   sleep 1
 }
 
