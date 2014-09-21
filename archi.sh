@@ -89,7 +89,7 @@ function defins()
   top
   echo "Updating Arch Linux to its Latest Release"
   echo " "
-  pacman -Syu  # To update the Arch Linux to the latest Release
+  pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
   sleep 1
   echo "Installing utilities"
   echo " "
