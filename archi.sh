@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v3.0
+#Arch Installer- Raspberry Pi v3.2
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -18,7 +18,28 @@
 
 
 #---------------------------------------------------------------------------
+# Defaults Declared Here
+
+defsleep=0;
+uisleep=2;
+
 # Functions Declared Here
+
+function perm()
+{
+	clear
+	top
+	echo " Changing Permissions. . . "
+	sleep $defsleep
+	chmod +x archi.sh
+	chmod +x command.sh
+	chmod +x disp.sh
+	chmod +x oc.sh
+	chmod +x userm.sh
+	chmod +x util.sh
+}
+
+
 function top()
 {
   clear
@@ -27,7 +48,7 @@ function top()
   echo "##   -- By kingspp                                          ##"
   echo "##############################################################"
   echo "  "
-  sleep 1
+  sleep $defsleep
 }
 
 function checkr()
@@ -37,7 +58,7 @@ function checkr()
     exit
   fi
   echo "User running as root!!"
-  sleep 1
+  sleep $defsleep
 }
 
 function ask()
@@ -56,7 +77,7 @@ function thank
   echo ""
   echo ""
   echo "Thank You"
-  echo "By Kingspp"
+  echo "--By Kingspp"
   echo " Reboot the system to apply changes?? [y/n]"
   read ch
   if [ "$ch" == 'y' ]; then
@@ -75,12 +96,13 @@ function pingcheck
   if ping -c 5 google.com &> /dev/null
   then
     echo "Success! Pi's got net!!'"
-    sleep 1
+    sleep $uisleep
     echo " "
   else
     echo "Fail! Please connect to the Internet and Try Again"
     echo "  "
   fi
+  ui
 }
 
 function defins()
@@ -90,7 +112,7 @@ function defins()
   echo "Updating Arch Linux to its Latest Release"
   echo " "
   pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
-  sleep 1
+  sleep $defsleep
   echo "Installing utilities"
   echo " "
   pacman-key --init
@@ -101,7 +123,7 @@ function defins()
   pacman  -S --noconfirm util-linux # To install Linux-Utilities
   pacman  -S --noconfirm devtools # To install Development Tools
   pacman -S --noconfirm git
-  sleep 1
+  sleep $defsleep
 }
 
 function partm()
@@ -122,39 +144,18 @@ function partm()
   #fdisk /dev/mmcblk0
 }
 
-function addu()
-{
-  top
-  echo "Lets create an User Account"
-  echo " "
-  echo " Please enter the name for the user account"
-  read name
-  useradd -m -g users -s /bin/bash -G audio,games,lp,optical,power,scanner,storage,video $name
-  echo "##
-  ## User privilege specification
-  ##
-  root ALL=(ALL) ALL
-  pi ALL=(ALL) ALL" >>  /etc/sudoers
-  groupadd sudo
-  usermod -a -G sudo $name
-  echo "Enter the password for new user"
-  echo " "
-  passwd $name
-}
-
 function passm()
 {
   ## Password Update
   echo "Please enter a new password for the root"
   echo " "
   passwd # To set new password for Root User
-  sleep 1
+  sleep $defsleep
 }
 
 function util()
 {
-  top
-  chmod +x util.sh
+  top  
   ./util.sh
 }
 
@@ -183,128 +184,128 @@ function ui
   echo " ** --> To do (Be Cautious)"
   echo ""
   echo "########################################################"
-  echo "1. Ping Check			c. Command Pi v1.0 **"
+  echo "1. Ping Check                   c. Command Pi v1.0 **   "
   echo "2. Arch Linux Update		d. Display Pi v1.1"
   echo "3. Partition Manager **		o. OverClocking PI v1.2	"	
-  echo "4. Add Users			u. Utility Pi v1.1"
+  echo "4. User Management **	        u. Utility Pi v1.1"
   echo "5. Change Passwords **"
   echo "6. Change Locale **"
   echo "7. Hostname"
   echo "8. Default Installation"
   echo "########################################################"
   echo ""
-  echo "Select an option"
+  echo "Select an option: "
   read opt
   case $opt in
-  1) echo "Ping Check Selected" 
-  echo ""
-  pingcheck
-  read s
-  ui
-  ;;
-  
-  2) echo "Do you want to update Arch? [y/n]"
-  echo ""
-  ask
-  defins
-  read s
-  ui
-  ;;
-  
-  3) echo "Manage Partitions? [y/n]"
-  echo ""
-  ask
-  partm
-  read s
-  ui
-  ;;
-  
-  4) echo "Do you want to add an User ? [y/n]"
-  echo ""
-  ask
-  addu
-  read s
-  ui
-  ;;
-  
-  5) echo "Do you want to change Passwords? [y/n]"
-  echo ""
-  ask
-  passm
-  read s
-  ui
-  ;;
-  
-  6) echo "Do you want to change the Locale? [y/n]"
-  ask
-  echo "Default Locale: "
-  sleep 1
-  grep -v ^# /etc/locale.gen
-  read s
-  ui
-  ;;
-  
-  7)  hname
-  read s
-  ui
-  ;;
-  
-  8) echo "Default Installation: "
-  pingcheck
-  defins
-  addu
-  chmod +x oc.sh
-  ./oc.sh
-  passm
-  util
-  hname
-  read s
-  ui
-  ;;
-  
-  c) echo "You have selectee Command Pi"
-  sleep 1
-  chmod +x command.sh
-  ./command.sh
-  ;;
-  
-  d) echo " You have selected Display Pi "
-  sleep 1
-  chmod +x disp.sh
-  ./disp.sh
-  read s
-  ui
-  ;;
-  
-  o) echo "Do you want to OverClock PI? [y/n]"
-  echo ""
-  ask
-  echo "Overclocking"
-  echo "Please make sure oc.sh is present in the same directory"
-  sleep 1
-  chmod +x oc.sh
-  ./oc.sh
-  read s
-  ui
-  ;;
-  
-  u) echo "Toy have selected Utility Pi "
-  sleep 1
-  util
-  ;;
-  
-  q) thank
-  clear
-  exit
-  ;;
-  esac
+	  1) echo "Ping Check Selected" 
+	  echo ""
+	  pingcheck
+	  read s
+	  ui
+	  ;;
+	  
+	  2) clear
+	  top
+	  echo "Do you want to update Arch? [y/n]"
+	  echo ""
+	  ask   
+	  echo "Updating Arch Linux to its Latest Release"
+	  echo " "
+	  pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
+	  sleep $defsleep
+	  echo " You have the latest Arch ;) "
+	  ui
+	  ;;
+	  
+	  3) echo "Manage Partitions? [y/n]"
+	  echo ""
+	  ask
+	  partm
+	  read s
+	  ui
+	  ;;
+	  
+	  4) echo "User Management"
+	  echo ""	  
+	  ./userm.sh
+	  ui
+	  ;;
+	  
+	  5) echo "Do you want to change Passwords? [y/n]"
+	  echo ""
+	  ask
+	  passm
+	  read s
+	  ui
+	  ;;
+	  
+	  6) echo "Do you want to change the Locale? [y/n]"
+	  ask
+	  echo "Default Locale: "
+	  sleep $defsleep
+	  grep -v ^# /etc/locale.gen
+	  read s
+	  ui
+	  ;;
+	  
+	  7)  hname
+	  read s
+	  ui
+	  ;;
+	  
+	  8) echo "Default Installation: "
+	  pingcheck
+	  defins
+	  addu	  
+	  ./oc.sh
+	  passm
+	  util
+	  hname
+	  read s
+	  ui
+	  ;;
+	  
+	  c) echo "You have selectee Command Pi"
+	  sleep $uisleep	  
+	  ./command.sh
+	  ;;
+	  
+	  d) echo " You have selected Display Pi "
+	  sleep $uisleep	  
+	  ./disp.sh
+	  read s
+	  ui
+	  ;;
+	  
+	  o) echo "Do you want to OverClock PI? [y/n]"
+	  echo ""
+	  ask
+	  echo "Overclocking"
+	  echo "Please make sure oc.sh is present in the same directory"
+	  sleep $uisleep	  
+	  ./oc.sh
+	  read s
+	  ui
+	  ;;
+	  
+	  u) echo "You have selected Utility Pi "
+	  sleep $uisleep
+	  util
+	  ;;
+	  
+	  q) thank
+	  clear
+	  exit
+	  ;;
+   esac
 }
 #-------------------------------------------------------------------------------
 
 ##Main
 ## To check if its running as Root
-echo "To check if its running as Root"
-echo " "
+top
+echo "To check if user is running as Root"
 checkr
-sleep 1
+perm
+sleep $defsleep
 ui
