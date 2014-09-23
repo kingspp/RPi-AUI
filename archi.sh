@@ -309,27 +309,4 @@ echo "To check if user is running as Root"
 checkr
 perm
 sleep $defsleep
-
-
-FUN=$(whiptail --title "Arch Install" --menu " " 20 80 12 --cancel-button Finish --ok-button Select \
-    "info" "Information about this tool" \
-    "expand_rootfs" "Expand root partition to fill SD card" \
-    "overscan" "Change overscan" \
-    "configure_keyboard" "Set keyboard layout" \
-    "change_pass" "Change password for 'pi' user" \
-    "change_locale" "Set locale" \
-    "change_timezone" "Set timezone" \
-    "memory_split" "Change memory split" \
-    "overclock" "Configure overclocking" \
-    "ssh" "Enable or disable ssh server" \
-    "boot_behaviour" "Start desktop on boot?" \
-    "update" "Try to upgrade raspi-config" \
-    3>&1 1>&2 2>&3)
-  RET=$?
-  if [ $RET -eq 1 ]; then
-    do_finish
-  elif [ $RET -eq 0 ]; then
-    "do_$FUN" || whiptail --msgbox "There was an error running do_$FUN" 20 60 1
-  else
-    exit 1
-  fi
+ui

@@ -15,6 +15,10 @@
 #-------------------------------------------------------------------------------
 # Run this script after your first boot with archlinux (as root)
 #-------------------------------------------------------------------------------------------------------------
+#Default values
+
+defscroll=1.5
+
 #Functions
 function checkr()
 {
@@ -54,6 +58,7 @@ echo "Version: "
 echo "-------------"
 /opt/vc/bin/vcgencmd version
 echo ""
+sleep $defscroll
 
 echo "Device Specifics: "
 echo "--------------------------"
@@ -72,11 +77,13 @@ echo "GPU Memory: $gpu_m"
 gv=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
 echo "Governor in use: $gv"
 echo ""
+sleep $defscroll
 
 echo "Config.txt Options:"
 echo "---------------------------"
 /opt/vc/bin/vcgencmd get_config int
 echo ""
+sleep $defscroll
 
 echo "Codecs Enabled:"
 echo "--------------------------"
@@ -84,6 +91,7 @@ for codec in H264 MPG2 WVC1 MPG4 MJPG WMV9 ; do
      echo -e "$codec:\t$(/opt/vc/bin/vcgencmd codec_enabled $codec)" ; 
  done 
  echo "" 
+ sleep $defscroll
 }
 
 function mountm()
@@ -121,7 +129,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to Display Pi v1.1  			    ##"
+echo "##   Welcome to Display Pi v1.5  			    ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
@@ -148,21 +156,25 @@ read opt
 echo ""
 case $opt in
 1) overview
+echo "Press any key to continue . . ."
 read s
 ui
 ;;
 
 2) configd
+echo "Press any key to continue . . ."
 read s
 ui
 ;;
 
 4) tempr
+echo "Press any key to continue . . ."
 read s
 ui
 ;;
 
 5) mountm
+echo "Press any key to continue . . ."
 read s
 ui
 ;;
