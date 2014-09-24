@@ -75,6 +75,7 @@ echo "5. Git - Git client for Github"
 echo "6. VSFTPD - FTP client for Pi"
 echo "7. Nano - File Editor for Pi"
 echo "8. XRDP - Windows RDP Client for Arch"
+echo "9. XBMC - An awesome Media manager for Raspberry pi"
 echo ""
 echo "Please Select from the options [1-7]: "
 read opt
@@ -82,52 +83,60 @@ echo ""
 case $opt in
 1)  echo "You have Selected Transmission"
 ask
-pacman -S transmission
+pacman -S --noconfirm transmission-cli
+echo "Do you want to enable it at the start??"
+ask
+systemctl enable transmission
 ui
 ;;
 
 2)  echo "You have Selected Webmin"
 ask
-pacman -S webmin
+pacman -S --noconfirm webmin
 ui
 ;;
 
 3)  echo "You have Selected Samba"
 ask
-pacman -S samba
+pacman -S --noconfirm samba
 ui
 ;;
 
 4)  echo "You have Selected NTFS-3G"
 ask
-pacman -S ntfs-3g
+pacman -S --noconfirm ntfs-3g
 ui
 ;;
 
 5)  echo "You have Selected Git"
 ask
-pacman -S git
+pacman -S --noconfirm git
 ui
 ;;
 
 6)  echo "You have Selected VSFTPD"
 ask
-pacman -S vsftpd
+pacman -S --noconfirm vsftpd
 ui
 ;;
 
 7)  echo "You have Selected Nano"
 ask
-pacman -S nano
+pacman -S --noconfirm nano
 ui
 ;;
 
 8)  echo "You have Selected XRDP"
 ask
-pacman -S xrdp
+pacman -S --noconfirm xrdp
 ui
 ;;
 
+9)  echo "You have Selected XBMC"
+ask
+pacman -S xbmc-rbp --noconfirm && /usr/bin/systemctl enable xbmc
+ui
+;;
 
 
 
