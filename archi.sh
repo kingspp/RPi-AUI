@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v3.2
+#Arch Installer- Raspberry Pi v4.2
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
