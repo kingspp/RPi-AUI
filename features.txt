@@ -1,7 +1,7 @@
 #This is a Feature List 
 
 ##archi.sh
-# Arch Install Script v3.0 offers
+# Arch Install Script v4.2 offers
 Ping Checking the Device
 Updating the Arch Linux
 Installing SUDO
@@ -15,9 +15,9 @@ System Utilities
 --util-linux # To install Linux-Utilities
 --devtools # To install Development Tools
 Partition Manager **
-Add User
+User Management (refer userm.sh)
 Password Manager **
-User Utilities **
+User Utilities (refer util.sh)
 Overclocking with Custom Mode (refer oc.sh)
 Change Hostname
 Display Pi v1.1
@@ -60,7 +60,7 @@ Overview:
 ## Display different features of PI
 
 #util.sh
-#Utility Pi v1.1
+#Utility Pi v2.0
 Install Utilities
 --Transmission
 --Webui
@@ -69,6 +69,14 @@ Install Utilities
 --Git
 --Nano
 --Ntfs-3G
+--XBMC
+
+#userm.sh
+#User Pi v1.0
+List user
+Add user function
+Remove user function
+
 
 #command.sh
 #Command Pi v1.0
