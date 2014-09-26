@@ -80,3 +80,4 @@ Remove user function
 
 #command.sh
 #Command Pi v1.0
+Added Command Pi
