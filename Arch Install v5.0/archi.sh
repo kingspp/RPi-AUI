@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v4.2
+#Arch Installer- Raspberry Pi v5.0
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ function perm()
 	chmod +x command.sh
 	chmod +x disp.sh
 	chmod +x oc.sh
+	chmod +x resize.sh
 	chmod +x userm.sh
 	chmod +x util.sh
 }
@@ -192,7 +193,8 @@ function ui
   echo "5. Change Password "
   echo "6. Change Locale **"
   echo "7. Hostname"
-  echo "8. Default Installation"
+  echo "8. Resize root file system"
+  echo "9. Default Installation"  
   echo "########################################################"
   echo ""
   echo "Select an option: "
@@ -250,7 +252,11 @@ function ui
 	  ui
 	  ;;
 	  
-	  8) echo "Default Installation: "
+	  8)./resize.sh	  
+	  ;;
+	  
+	  
+	  9) echo "Default Installation: "
 	  pingcheck
 	  defins
 	  addu	  
