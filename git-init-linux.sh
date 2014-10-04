@@ -32,17 +32,13 @@ top
 git --version
 echo ""
 echo "Please Enter your Username: "
-#read uname
+read uname
 echo "Please Enter your Email   : "
-#read umail
+read umail
 
-#git config --global user.name "$uname"
-#git config --global user.email "$umail"
+git config --global user.name "$uname"
+git config --global user.email "$umail"
 
 echo "Please enter the location of the repo: "
 read repo
-#git remote add origin $repo
-
-git push
-kingspp
-augustaf4
+git remote add origin $repo
