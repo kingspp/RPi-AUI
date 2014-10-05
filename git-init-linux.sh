@@ -27,7 +27,13 @@ top()
 }
 
 clear
+top
+if [ ! -x /usr/bin/git ]; then
+  printf "Installing Git . . . "
+  pacman -S --noconfirm git  
+fi
 
+clear
 top
 git --version
 echo ""
@@ -42,3 +48,5 @@ git config --global user.email "$umail"
 echo "Please enter the location of the repo: "
 read repo
 git remote add origin $repo
+
+
