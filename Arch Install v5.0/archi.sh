@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v5.0
+#Arch Installer- Raspberry Pi v5.2
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ function perm()
 	chmod +x resize.sh
 	chmod +x userm.sh
 	chmod +x util.sh
+	chmod +x lan_lxde.sh
 }
 
 
@@ -45,7 +46,7 @@ function top()
 {
   clear
   echo "##############################################################"
-  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v3.0        ##"
+  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v5.2        ##"
   echo "##   -- By kingspp                                          ##"
   echo "##############################################################"
   echo "  "
@@ -186,11 +187,11 @@ function ui
   echo " ** --> To do (Be Cautious)"
   echo ""
   echo "########################################################"
-  echo "1. Ping Check                   c. Command Pi v1.0 **   "
-  echo "2. Arch Linux Update		d. Display Pi v1.1"
-  echo "3. Partition Manager **		o. OverClocking PI v1.2	"	
-  echo "4. User Management 	        u. Utility Pi v1.1"
-  echo "5. Change Password "
+  echo "1. Ping Check               c. Command Pi v1.0 **"
+  echo "2. Arch Linux Update        d. Display Pi v1.1"
+  echo "3. Partition Manager **     o. OverClocking PI v1.2	"	
+  echo "4. User Management          u. Utility Pi v1.1"
+  echo "5. Change Password          l. LXDE on LAN v1.0" 
   echo "6. Change Locale **"
   echo "7. Hostname"
   echo "8. Resize root file system"
@@ -286,14 +287,19 @@ function ui
 	  echo "Overclocking"
 	  echo "Please make sure oc.sh is present in the same directory"
 	  sleep $uisleep	  
-	  ./oc.sh
-	  read s
+	  ./oc.sh	  
 	  ui
 	  ;;
 	  
 	  u) echo "You have selected Utility Pi "
 	  sleep $uisleep
-	  util
+	  ./util.sh
+	  ;;
+	  
+	  l) echo "You have selected LXDE on LAN "
+	  sleep $uisleep
+	  ./lan_lxde.sh	  
+	  ui
 	  ;;
 	  
 	  q) thank	  

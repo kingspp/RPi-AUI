@@ -32,8 +32,8 @@ function ask()
   if [ "$ch" == 'y' ]; then
   echo ""
   else
-  clear
-  exit
+  clear 
+  exit  
   fi
 }
 
