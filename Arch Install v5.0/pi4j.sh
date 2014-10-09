@@ -56,6 +56,8 @@ mv pi4j-0.0.5/README.md  /opt/pi4j/
 
 
 #sudo java -cp SomeJar.jar:.:classes:/opt/pi4j/lib/'*' be.pixxis.Example #Command to compile and run .java file 
+#javac -classpath .:classes:/opt/pi4j/lib/'*' -d . FileName.java #Compile the java file`
+#java -classpath .:classes:/opt/pi4j/lib/'*' ControlGpioExample # Run the program
 
 rm -rf pi4j-0.0.5.tar.gz
 rm pi4j-0.0.5
