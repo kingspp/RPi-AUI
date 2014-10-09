@@ -1,5 +1,5 @@
 #!/bin/bash
-# LAN LXDE v1.0
+# Pi4J v1.0
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -19,7 +19,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to LANLxde v1.0                                ##"
+echo "##   Welcome to Pi4J v1.0                                   ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
@@ -39,12 +39,31 @@ function ask()
 
 
 top
-echo "Do you want to install LXDE available on LAN ? [y/n]  "
+echo "Do you want to install Pi4J ? [y/n]  "
 ask
 echo "Installing . . ."
 sleep 1
-pacman -S --noconfirm xrdp lxde xf86-video-fbdev xorg-xinit xorg  xorg-server xorg-server-utils xterm 
-echo "exec startlxde" > ~/.xinitrc
+wget https://github.com/glnds/pi4j-arch/releases/download/arch-release%2F0.0.5/pi4j-0.0.5.tar.gz
+tar -xvzf pi4j-0.0.5.tar.gz
+mkdir /opt/pi4j
+mv pi4j-0.0.5/lib/ /opt/pi4j/
+mv pi4j-0.0.5/examples/ /opt/pi4j/
+mv pi4j-0.0.5/LICENSE.txt  /opt/pi4j/
+mv pi4j-0.0.5/NOTICE.txt  /opt/pi4j/
+mv pi4j-0.0.5/README.md  /opt/pi4j/
+
+
+
+
+#sudo java -cp SomeJar.jar:.:classes:/opt/pi4j/lib/'*' be.pixxis.Example #Command to compile and run .java file 
+
+rm -rf pi4j-0.0.5.tar.gz
+rm pi4j-0.0.5
+
+echo "Installation Complete "
+sleep 2
+
+
 
 
 

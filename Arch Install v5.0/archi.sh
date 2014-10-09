@@ -39,6 +39,7 @@ function perm()
 	chmod +x userm.sh
 	chmod +x util.sh
 	chmod +x lan_lxde.sh
+	chmod +x pi4j.sh
 }
 
 
@@ -192,7 +193,7 @@ function ui
   echo "3. Partition Manager **     o. OverClocking PI v1.2	"	
   echo "4. User Management          u. Utility Pi v1.1"
   echo "5. Change Password          l. LXDE on LAN v1.0" 
-  echo "6. Change Locale **"
+  echo "6. Change Locale **         p. Install pi4j v1.0"
   echo "7. Hostname"
   echo "8. Resize root file system"
   echo "9. Default Installation"  
@@ -299,6 +300,12 @@ function ui
 	  l) echo "You have selected LXDE on LAN "
 	  sleep $uisleep
 	  ./lan_lxde.sh	  
+	  ui
+	  ;;
+	  
+	  p) echo "You have selected pi4j "
+	  sleep $uisleep
+	  ./pi4j.sh	  
 	  ui
 	  ;;
 	  
