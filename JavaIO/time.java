@@ -13,9 +13,9 @@ public class time
  	//Create a GPIO Instance
 	static final GpioController gpio = GpioFactory.getInstance();
         
-        // Turn on the control pins of the SSD
-        static final GpioPinDigitalOutput cpin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.HIGH);
-        static final GpioPinDigitalOutput cpin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "MyLED", PinState.HIGH);
+    // Turn on the control pins of the SSD
+    static final GpioPinDigitalOutput cpin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.HIGH);
+    static final GpioPinDigitalOutput cpin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput cpin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput cpin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "MyLED", PinState.HIGH);
 		
@@ -33,7 +33,7 @@ public class time
 	{
 		DateFormat hour = new SimpleDateFormat("HH");
 		DateFormat min = new SimpleDateFormat("mm");
-        	Date date = new Date();		
+       	Date date = new Date();		
 		int hr = Integer.parseInt(hour.format(date));
 		int mn = Integer.parseInt(min.format(date));		
 		System.out.println(hr);
@@ -44,8 +44,8 @@ public class time
 	
 	static void shutdown () throws InterruptedException
 	{
-	  	//Turnoff all the pins
-	    	time t=new time();
+	    //Turnoff all the pins
+	    time t=new time();
 		Thread.sleep(2000);
 		t.cpin1.low();
 		t.cpin2.low();
