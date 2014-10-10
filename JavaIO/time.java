@@ -38,27 +38,78 @@ public class time
 		int mn = Integer.parseInt(min.format(date));		
 		System.out.println(hr);
 		System.out.println(mn);
+		Thread.sleep(1200);		 
+		shutdown();		
 		
-		shutdown();        
+		cpin1.high();		
+		trans(0);
+		Thread.sleep(3000);
+		
+		
+		shutdown();  
+		gpio.shutdown();	
+		
+	}
+	
+	
+	
+	static void init() throws InterruptedException
+	{
+		a.high();
+		b.high();
+		c.high();
+		d.high();
+		e.high();
+		f.high();
+		g.high();
+		h.high();
+	}
+	
+	static void shut() throws InterruptedException
+	{
+		a.low();
+		b.low();
+		c.low();
+		d.low();
+		e.low();
+		f.low();
+		g.low();
+		h.low();		
 	}
 	
 	static void shutdown () throws InterruptedException
 	{
-	    //Turnoff all the pins
-	    time t=new time();
+	    //Turnoff all the pins	    
 		Thread.sleep(2000);
-		t.cpin1.low();
-		t.cpin2.low();
-		t.cpin3.low();
-		t.cpin4.low();
-		t.a.low();
-		t.b.low();
-		t.c.low();
-		t.d.low();
-		t.e.low();
-		t.f.low();
-		t.g.low();
-		t.h.low();		
-		t.gpio.shutdown();		
+		cpin1.low();
+		cpin2.low();
+		cpin3.low();
+		cpin4.low();
+		a.low();
+		b.low();
+		c.low();
+		d.low();
+		e.low();
+		f.low();
+		g.low();
+		h.low();		
+		//gpio.shutdown();		
+	}
+	
+	static void trans(int num) throws InterruptedException
+	{
+		switch(num)
+		{
+			case 0:
+				init();
+				g.low();
+				break;
+			
+			case 1:
+				shut();
+				g.low();
+				break;
+		}
+		
 	}
 }
