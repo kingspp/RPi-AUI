@@ -13,13 +13,13 @@ public class time
  	//Create a GPIO Instance
 	static final GpioController gpio = GpioFactory.getInstance();
         
-    // Turn on the control pins of the SSD
+    // Turn high the control pins of the SSD
     static final GpioPinDigitalOutput cpin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.HIGH);
     static final GpioPinDigitalOutput cpin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput cpin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput cpin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "MyLED", PinState.HIGH);
 		
-	// Tun on the each pin of SSD
+	// Tun high the each pin of SSD
 	static final GpioPinDigitalOutput a = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput b = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput c = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "MyLED", PinState.HIGH);
@@ -36,18 +36,58 @@ public class time
        	Date date = new Date();		
 		int hr = Integer.parseInt(hour.format(date));
 		int mn = Integer.parseInt(min.format(date));		
-		System.out.println(hr);
-		System.out.println(mn);
 		Thread.sleep(1200);		 
-		shutdown();		
+		shutdown();	
+		//minutes
+		int m1=mn%10;
+		int m2=mn/10;		
+		//hour
+		int h1=hr%10;
+		int h2=hr/10;
 		
-		cpin1.high();		
-		trans(0);
-		Thread.sleep(3000);
+		System.out.print(h2);
+		System.out.print(h1);
+		System.out.print(":");
+		System.out.print(m2);
+		System.out.print(m1);
+		System.out.println("");
+		
+		
+		for(int i=0;i<1000;i++)
+		{
+		cpin4.high();
+		trans(h2);		
+		Thread.sleep(5);
+		cpin4.low();
+		cpin3.high();
+		trans(h1);
+		h.high();
+		Thread.sleep(5);
+		h.low();
+		cpin3.low();
+		cpin2.high();
+		trans(m2);
+		Thread.sleep(5);
+		cpin2.low();
+		cpin1.high();
+		trans(m1);
+		Thread.sleep(5);
+		cpin1.low();
+		}
+		/*
+		cpin3.high();		
+		for(int i=0;i<10;i++){		
+		trans(i);		
+		Thread.sleep(1000);
+		}		
+		cpin3.low();
+		*/
+		
 		
 		
 		shutdown();  
-		gpio.shutdown();	
+		gpio.shutdown();
+			
 		
 	}
 	
@@ -62,7 +102,7 @@ public class time
 		e.high();
 		f.high();
 		g.high();
-		h.high();
+		//h.high();
 	}
 	
 	static void shut() throws InterruptedException
@@ -74,7 +114,7 @@ public class time
 		e.low();
 		f.low();
 		g.low();
-		h.low();		
+		//h.low();		
 	}
 	
 	static void shutdown () throws InterruptedException
@@ -93,7 +133,7 @@ public class time
 		f.low();
 		g.low();
 		h.low();		
-		//gpio.shutdown();		
+				
 	}
 	
 	static void trans(int num) throws InterruptedException
@@ -107,8 +147,56 @@ public class time
 			
 			case 1:
 				shut();
-				g.low();
+				b.high();
+				c.high();
 				break;
+				
+			case 2:
+				init();
+				c.low();
+				f.low();
+				break;
+				
+			case 3:
+				init();
+				e.low();
+				f.low();
+				break;
+			
+			case 4:
+			    init();
+				a.low();
+				d.low();
+				e.low();
+				break;
+			
+			case 5:
+				init();
+				b.low();
+				e.low();
+				break;
+				
+			case 6:
+				init();
+				b.low();
+				break;
+				
+			case 7:
+				shut();
+				a.high();
+				b.high();
+				c.high();
+				break;
+				
+			case 8:
+				init();
+				break;
+			
+			case 9:
+				init();
+				e.low();
+				break;
+				
 		}
 		
 	}
