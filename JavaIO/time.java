@@ -35,6 +35,8 @@ public class time
 		DateFormat min = new SimpleDateFormat("mm");
        	Date date = new Date();		
 		int hr = Integer.parseInt(hour.format(date));
+		if(hr>12)
+		hr=hr-12;
 		int mn = Integer.parseInt(min.format(date));		
 		Thread.sleep(1200);		 
 		shutdown();	
