@@ -29,7 +29,7 @@ public class time
 	static final GpioPinDigitalOutput cpin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput cpin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "MyLED", PinState.HIGH);
 		
-	// Tun high the each pin of SSD
+	// Turn high the each pin of SSD
 	static final GpioPinDigitalOutput a = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput b = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput c = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "MyLED", PinState.HIGH);
@@ -38,32 +38,57 @@ public class time
 	static final GpioPinDigitalOutput f = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput g = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_11, "MyLED", PinState.HIGH);
 	static final GpioPinDigitalOutput h = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "MyLED", PinState.HIGH);
+	
+	//Add a pin to listen to a button click
 
 	public static void main(String args[]) throws InterruptedException
 	{
+		////DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DateFormat hour = new SimpleDateFormat("HH");
 		DateFormat min = new SimpleDateFormat("mm");
+		DateFormat day = new SimpleDateFormat("dd");
+		DateFormat mon = new SimpleDateFormat("MM");
        	Date date = new Date();		
 		int hr = Integer.parseInt(hour.format(date));
 		if(hr>12)
 		hr=hr-12;
-		int mn = Integer.parseInt(min.format(date));		
+		int mm = Integer.parseInt(min.format(date));		
+		int mn = Integer.parseInt(min.format(date));
+		int dd = Integer.parseInt(day.format(date));
+		int MM = Integer.parseInt(mon.format(date));
 		Thread.sleep(1200);		 
 		shutdown();	
+		
 		//minutes
-		int m1=mn%10;
-		int m2=mn/10;		
+		int m1=mm%10;
+		int m2=mm/10;		
+		
 		//hour
 		int h1=hr%10;
 		int h2=hr/10;
 		
+		//day
+		int d1=dd%10;
+		int d2=dd/10;
+		
+		//mon
+		int M1=MM%10;
+		int M2=MM/10;
+		
 		//print the time
+		System.out.print("Time: ");
 		System.out.print(h2);
 		System.out.print(h1);
 		System.out.print(":");
 		System.out.print(m2);
 		System.out.print(m1);
 		System.out.println("");
+		System.out.print("Date: ");
+		System.out.print(d2);
+		System.out.print(d1);
+		System.out.print(":");
+		System.out.print(M2);
+		System.out.print(M1);
 		
 		//Display time on 4 Seven Segment Display
 		for(int i=0;i<1000;i++)
