@@ -47,6 +47,7 @@ public class time
 		int h1=hr%10;
 		int h2=hr/10;
 		
+		//print the time
 		System.out.print(h2);
 		System.out.print(h1);
 		System.out.print(":");
@@ -54,7 +55,7 @@ public class time
 		System.out.print(m1);
 		System.out.println("");
 		
-		
+		//Display time on 4 Seven Segment Display
 		for(int i=0;i<1000;i++)
 		{
 		cpin4.high();
@@ -76,6 +77,8 @@ public class time
 		Thread.sleep(5);
 		cpin1.low();
 		}
+		
+		//Used to check the correctness of each Seven Segment Display
 		/*
 		cpin3.high();		
 		for(int i=0;i<10;i++){		
@@ -83,17 +86,10 @@ public class time
 		Thread.sleep(1000);
 		}		
 		cpin3.low();
-		*/
-		
-		
-		
+		*/		
 		shutdown();  
-		gpio.shutdown();
-			
-		
-	}
-	
-	
+		gpio.shutdown();		
+	}	
 	
 	static void init() throws InterruptedException
 	{
@@ -103,8 +99,7 @@ public class time
 		d.high();
 		e.high();
 		f.high();
-		g.high();
-		//h.high();
+		g.high();		
 	}
 	
 	static void shut() throws InterruptedException
@@ -115,8 +110,7 @@ public class time
 		d.low();
 		e.low();
 		f.low();
-		g.low();
-		//h.low();		
+		g.low();		
 	}
 	
 	static void shutdown () throws InterruptedException
@@ -134,8 +128,7 @@ public class time
 		e.low();
 		f.low();
 		g.low();
-		h.low();		
-				
+		h.low();				
 	}
 	
 	static void trans(int num) throws InterruptedException
@@ -197,9 +190,7 @@ public class time
 			case 9:
 				init();
 				e.low();
-				break;
-				
-		}
-		
+				break;				
+		}		
 	}
 }
