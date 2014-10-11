@@ -1,3 +1,13 @@
+/*
+Created on Oct 11, 2014
+
+@author: Prathyush
+
+The scope of the project is to use Java Programming to control the GPIO of the Raspberry Pi
+In this simple program, Four Seven Segment Displays are used to display the time.
+cpin is used as the contol pin for each display
+a-h are the different segments of the display
+*/
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
