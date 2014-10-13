@@ -222,7 +222,7 @@ fin
 function dis()
 {
 echo "Welcome to OverClocking"
-echo "Do not change the settings if you so not know about Overclocking"
+echo "Do not change the settings if you so not know about Over clocking"
 echo "
 /*
  * I am not responsible for bricked devices, dead SD cards,
@@ -321,7 +321,7 @@ over_voltage=0">> /boot/config.txt
 fin
 ;;
 
-2 ) echo "You have selected Modetate Mode"
+2 ) echo "You have selected Moderate Mode"
 ask
  echo "#Moderate Mode
 arm_freq=800
@@ -378,6 +378,9 @@ function gov()
 top
 echo "Governors"
 echo ""
+curgov=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
+echo "The current Governor in use is: $curgov"
+echo ""
 echo "Available Governors"
 echo "1. Conservative 
 2. Userspace 
@@ -385,6 +388,11 @@ echo "1. Conservative
 4. Ondemand 
 5. Performance
 "
+
+path=/etc/bash.bashrc
+sed -i '/scaling_governor/d' $path
+
+
 echo ""
 echo "Enter your Preferred Governor: [1-5]: "
 read gv
@@ -392,22 +400,31 @@ case $gv in
 1) echo "You have selected Conservative"
 ask
 echo "conservative" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -n "echo \"conservative\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
 ;;
+
 2) echo "You have selected Userspace"
 ask
 echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -n "echo \"userspace\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
 ;;
+
 3) echo "You have selected Powersave"
 ask
 echo "powersave" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -n "echo \"powersave\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
 ;;
+
 4) echo "You have selected Ondemand"
 ask
 echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -n "echo \"ondemand\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
 ;;
+
 5) echo "You have selected Performance"
 ask
 echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo -n "echo \"performance\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
 ;;
 esac
 fin
