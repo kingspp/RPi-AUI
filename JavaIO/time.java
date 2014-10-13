@@ -9,6 +9,7 @@ cpin is used as the contol pin for each display
 a-h are the different segments of the display
 */
 import java.util.Date;
+import java.util.concurrent.Callable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+import com.pi4j.io.gpio.trigger.GpioCallbackTrigger;
 
 public class time 
 {
@@ -73,14 +75,24 @@ public class time
                 // display pin state on console
                 System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
 				s++;
-				while(true){
+				while(true)
+				{
 				try{
 					
-					if(s%2==0)
+					if(s%2==0){
 						dt();
+				myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+                shutdown();
+                return null;
+				}
+			}));
+						}
 					else
 						tm();}
-				catch(Exception ex){}
+				catch(Exception ex){}			
+		
+				
 				}
 				
             }            
@@ -131,8 +143,7 @@ public class time
 		System.out.println("");
 		
 		//Display time on 4 Seven Segment Display
-		//for(int i=0;i<10;i++)
-		{
+		
 		cpin4.high();
 		trans(h2);		
 		Thread.sleep(5);
@@ -151,7 +162,8 @@ public class time
 		trans(m1);
 		Thread.sleep(5);
 		cpin1.low();
-		}		
+		
+		
 	}
 	
 	static void dt() throws InterruptedException

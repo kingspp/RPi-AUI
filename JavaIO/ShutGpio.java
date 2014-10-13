@@ -10,8 +10,7 @@ public class ShutGpio{
 	public static  void main (String args[])
 	{
 		System.out.println("Shutting Down GPIO Pins. Bye!");
-		final GpioController gpio = GpioFactory.getInstance();
-		
+		final GpioController gpio = GpioFactory.getInstance();		
 		final GpioPinDigitalOutput p0 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "MyLED", PinState.LOW);
 		final GpioPinDigitalOutput p1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.LOW);
 		final GpioPinDigitalOutput p2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "MyLED", PinState.LOW);

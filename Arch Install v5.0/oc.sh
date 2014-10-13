@@ -253,10 +253,6 @@ echo "Lets backup old config.txt for emergency"
 cp /boot/config.txt /boot/config.old
 echo  "Success! Backed up as config.old"
 sleep 1
-rm /boot/config.txt
-touch /boot/config.txt
-defconf
-sleep 1
 }
 
 
@@ -309,7 +305,9 @@ echo "Be Careful!!!!"
 echo "Enter the Mode [1-6]: "
 read opt
 echo ""
-
+rm /boot/config.txt
+touch /boot/config.txt
+defconf
 
 case $opt in
 
