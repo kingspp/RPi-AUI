@@ -155,7 +155,7 @@ ui
 
 function ui
 {
-top
+top  
 echo "Press q to exit"
 echo ""
 echo "1. View all utilities"

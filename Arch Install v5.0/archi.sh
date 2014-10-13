@@ -121,11 +121,11 @@ function defins()
   pacman-key --init
   pacman -S --noconfirm archlinux-keyring
   pacman-key --populate archlinux
-  pacman  -S --noconfirm bash # To install bash for scripting
-  pacman  -S --noconfirm coreutils # To install Core-Utilities
-  pacman  -S --noconfirm util-linux # To install Linux-Utilities
-  pacman  -S --noconfirm devtools # To install Development Tools
-  pacman -S --noconfirm git
+  pacman  -S --noconfirm --needed bash # To install bash for scripting
+  pacman  -S --noconfirm --needed coreutils # To install Core-Utilities
+  pacman  -S --noconfirm --needed util-linux # To install Linux-Utilities
+  pacman  -S --noconfirm --needed devtools # To install Development Tools
+  pacman -S --noconfirm --needed git
   sleep $defsleep
 }
 
