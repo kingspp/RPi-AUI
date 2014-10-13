@@ -80,7 +80,7 @@ public class time
 				try{
 					
 					if(s%2==0){
-						dt();
+						tm();
 				myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
                 shutdown();
@@ -143,7 +143,7 @@ public class time
 		System.out.println("");
 		
 		//Display time on 4 Seven Segment Display
-		
+		while(true){
 		cpin4.high();
 		trans(h2);		
 		Thread.sleep(5);
@@ -162,6 +162,7 @@ public class time
 		trans(m1);
 		Thread.sleep(5);
 		cpin1.low();
+		}
 		
 		
 	}

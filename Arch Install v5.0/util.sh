@@ -16,6 +16,9 @@
 # Run this script after your first boot with archlinux (as root)
 
 #------------------------------------------------------------------------------------------------
+#Default Variables
+defsleep=1
+
 #Functions
 function top()
 {
@@ -83,66 +86,61 @@ echo ""
 case $opt in
 1)  echo "You have Selected Transmission"
 ask
-pacman -S --noconfirm transmission-cli
-echo "Do you want to enable it at the start??"
-ask
-systemctl enable transmission
+echo "Installing Transmission . . . "
+pacman -S --noconfirm --needed transmission-cli 
+printf "Enabling Transmission Service . . . "
+systemctl enable transmission 
 ui
 ;;
 
 2)  echo "You have Selected Webmin"
 ask
-pacman -S --noconfirm webmin
+pacman -S --noconfirm --needed webmin
 ui
 ;;
 
 3)  echo "You have Selected Samba"
 ask
-pacman -S --noconfirm samba
+pacman -S --noconfirm --needed samba
 ui
 ;;
 
 4)  echo "You have Selected NTFS-3G"
 ask
-pacman -S --noconfirm ntfs-3g
+pacman -S --noconfirm --needed ntfs-3g
 ui
 ;;
 
 5)  echo "You have Selected Git"
 ask
-pacman -S --noconfirm git
+pacman -S --noconfirm --needed git
 ui
 ;;
 
 6)  echo "You have Selected VSFTPD"
 ask
-pacman -S --noconfirm vsftpd
+pacman -S --noconfirm --needed vsftpd
 ui
 ;;
 
 7)  echo "You have Selected Nano"
 ask
-pacman -S --noconfirm nano
+pacman -S --noconfirm --needed nano
 ui
 ;;
 
 8)  echo "You have Selected XRDP"
 ask
-pacman -S --noconfirm xrdp
+pacman -S --noconfirm --needed xrdp
 ui
 ;;
 
 9)  echo "You have Selected XBMC"
 ask
-pacman -S xbmc-rbp --noconfirm && /usr/bin/systemctl enable xbmc
+pacman -S xbmc-rbp --noconfirm --needed && /usr/bin/systemctl enable xbmc
 ui
 ;;
-
-
-
-
 esac
-
 }
 
 function defins()
