@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v5.2
+#Arch Installer- Raspberry Pi v6.0
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ function top()
 {
   clear
   echo "##############################################################"
-  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v5.2        ##"
+  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v6.0        ##"
   echo "##   -- By kingspp                                          ##"
   echo "##############################################################"
   echo "  "
@@ -189,13 +189,13 @@ function ui
   echo ""
   echo "########################################################"
   echo "1. Ping Check               c. Command Pi v1.0 **"
-  echo "2. Arch Linux Update        d. Display Pi v1.1"
-  echo "3. Partition Manager **     o. OverClocking PI v1.2	"	
-  echo "4. User Management          u. Utility Pi v1.1"
+  echo "2. Arch Linux Update        d. Display Pi v1.5"
+  echo "3. Partition Manager **     o. OverClocking Pi v2.0	"	
+  echo "4. User Management          u. Utility Pi v2.0"
   echo "5. Change Password          l. LXDE on LAN v1.0" 
   echo "6. Change Locale **         p. Install pi4j v1.0"
-  echo "7. Hostname"
-  echo "8. Resize root file system"
+  echo "7. Hostname                 r. Resize Pi v1.1"
+  echo "8. Resize root file system  m. User Pi v2.0"
   echo "9. Default Installation"  
   echo "########################################################"
   echo ""
@@ -306,6 +306,18 @@ function ui
 	  p) echo "You have selected pi4j "
 	  sleep $uisleep
 	  ./pi4j.sh	  
+	  ui
+	  ;;
+	  
+	  r) echo "You have selected Resize Pi "
+	  sleep $uisleep
+	  ./resize.sh	  
+	  ui
+	  ;;
+	  
+	  m) echo "You have selected User Pi "
+	  sleep $uisleep
+	  ./userm.sh	  
 	  ui
 	  ;;
 	  

@@ -1,5 +1,5 @@
 #!/bin/bash
-# User Management v1.0
+# User Management v2.0
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -26,7 +26,7 @@ function top()
 {
 	clear
 	echo "##############################################################"
-	echo "##   Welcome to User Management v2.0			    ##"
+	echo "##   Welcome to User Management v2.0                        ##"
 	echo "##   -- By kingspp                                          ##"
 	echo "##############################################################"
 	echo "  "
