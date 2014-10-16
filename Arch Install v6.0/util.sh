@@ -70,7 +70,7 @@ function view
 top
 echo " Utilities available:"
 echo ""
-echo "1. Transmission - A torrent Client"
+echo "1. Transmission - A torrent Client                     a.Install Alsa-Mixer"
 echo "2. Webmin - Administer Raspberry Pi from browser"
 echo "3. Samba - Windows Remote Client"
 echo "4. NTFS-3G - Mount NTFS Partitions"
@@ -140,6 +140,49 @@ ask
 pacman -S xbmc-rbp --noconfirm --needed && /usr/bin/systemctl enable xbmc
 ui
 ;;
+
+a)  echo "You have Selected Alsa Mixer"
+ask
+pacman -S --noconfirm --needed alsa-utils 
+clear
+top
+echo "Amixer Installed!" 
+echo " "
+echo "Default Audio output: "
+echo "1. Auto Configuration"
+echo "2. Analogue output"
+echo "3. HDMI output"
+echo "Enter your choice: "
+read ch
+case $ch in
+	1) echo "You have selected Auto Configuration."
+	ask
+	amixer cset numid=3 0
+	echo "Audio output set to Auto Mode"
+	sleep $defsleep
+	ui
+	;;
+	
+	2) echo "You have selected Analogue Output."
+	ask
+	amixer cset numid=3 1
+	echo "Audio output set to Analogous Output"
+	sleep $defsleep	
+	ui
+	;;
+	
+	3) echo "You have selected HDMI Output."
+	ask
+	amixer cset numid=3 2
+	echo "Audio output set to HDMI"
+	sleep $defsleep
+	ui
+	;;
+	esac
+
+
+ui
+;;
 esac
 }
 
@@ -177,3 +220,4 @@ esac
 #-----------------------------------------------------------------------------------------------
 checkr
 ui
+
