@@ -16,7 +16,7 @@ chmod +x aui-setup.sh
 
 Commands:
 
-aui   - Arch Ultimate Install UI
+aui   - Arch Ultimate Install UI <br>
 disp  - Display UI
 oc    - OverClocking UI
 userm - Usermanagement UI
