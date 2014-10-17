@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arch Installer- Raspberry Pi v6.0
+#Arch Installer- Raspberry Pi v6.2
 #Remove Carriage return sed -i 's/ \r//g' <filename>
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ function top()
 {
   clear
   echo "##############################################################"
-  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v6.0        ##"
+  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v6.2        ##"
   echo "##   -- By kingspp                                          ##"
   echo "##############################################################"
   echo "  "
