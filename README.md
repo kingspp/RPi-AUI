@@ -1,4 +1,4 @@
-Raspberry-Pi-AUI v6.0
+Raspberry-Pi-AUI v6.2
 ============
 
 It is a basic introduction for Configuring Raspberry Pi
