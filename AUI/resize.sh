@@ -19,7 +19,7 @@ function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to Root System Resize v1.1                     ##"
+echo "##   Welcome to Root System Resize v1.1 **  (Unstable)      ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
