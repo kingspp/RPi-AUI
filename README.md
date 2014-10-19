@@ -21,3 +21,6 @@ disp  - Display UI <br>
 oc    - OverClocking UI <br>
 userm - Usermanagement UI <br> 
 util  - Utility Manager UI <br>
+
+**How to commit to the repository?**
+Coming soon...
