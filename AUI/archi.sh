@@ -125,7 +125,12 @@ function defins()
   pacman  -S --noconfirm --needed coreutils # To install Core-Utilities
   pacman  -S --noconfirm --needed util-linux # To install Linux-Utilities
   pacman  -S --noconfirm --needed devtools # To install Development Tools
-  pacman -S --noconfirm --needed git
+  pacman -S --noconfirm --needed git  
+  echo "Do you want pacman to be in colours? [y/n]"
+  read s
+  if [ "$s" == 'y' ]; then
+	 sed -i 's/#Color/Color/g' /etc/pacman.conf
+  fi
   sleep $defsleep
 }
 
@@ -265,8 +270,8 @@ function ui
 	  ./oc.sh
 	  passm
 	  util
-	  hname
-	  read s
+	  hname	  
+	  read s	  
 	  ui
 	  ;;
 	  

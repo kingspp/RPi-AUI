@@ -79,6 +79,7 @@ echo "6. VSFTPD - FTP client for Pi"
 echo "7. Nano - File Editor for Pi"
 echo "8. XRDP - Windows RDP Client for Arch"
 echo "9. XBMC - An awesome Media manager for Raspberry pi"
+echo "10.Aria2 - A light weight torrent manager"
 echo ""
 echo "Please Select from the options [1-7]: "
 read opt
@@ -138,6 +139,12 @@ ui
 9)  echo "You have Selected XBMC"
 ask
 pacman -S xbmc-rbp --noconfirm --needed && /usr/bin/systemctl enable xbmc
+ui
+;;
+
+10)  echo "You have Selected Aria2"
+ask
+pacman -S xbmc-rbp --noconfirm --needed aria2
 ui
 ;;
 
