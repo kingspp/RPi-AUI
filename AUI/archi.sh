@@ -64,13 +64,12 @@ function checkr()
   sleep $defsleep
 }
 
-function ask()
-{
+function ask() {
   read ch
-  if [ "$ch" == 'y' ]; then
-  echo ""
+  if [ "$ch" == 'y' ] || [ "ch" == "Y" ] ; then
+  	echo ""
   else
-  thank
+  	thank
   fi
 }
 
@@ -96,7 +95,7 @@ function pingcheck
   top
   echo "To check if the pi got Internet??!!"
   echo " "
-  if ping -c 5 google.com &> /dev/null
+  if ping -c 3 google.com &> /dev/null
   then
     echo "Success! Pi's got net!!'"
     sleep $uisleep
@@ -112,25 +111,25 @@ function defins()
 {
   ## Installation
   top
+  echo "Do you want pacman to be in colours? [y/N]"; read s # Pacman colour
+  if [ "$s" == 'y' ]; then
+  	sed -i 's/#Color/Color/g' /etc/pacman.conf
+  fi
   echo "Updating Arch Linux to its Latest Release"
   echo " "
   pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
   sleep $defsleep
   echo "Installing utilities"
-  echo " "
+  echo "Packages that are going to be install: "
+  echo "1. archlinuxarm-keyring & archlinux-keyring"
+  echo "2. bash - To install bash for scripting"
+  echo "3. coreutils - To install Core Utilities"
+  echo "4. util-linux - To install Linux Utilities"
+  echo "5. devtools - To install Development Tools"
   pacman-key --init
-  pacman -S --noconfirm archlinux-keyring
+  pacman -S --noconfirm archlinux-keyring archlinux
   pacman-key --populate archlinux
-  pacman  -S --noconfirm --needed bash # To install bash for scripting
-  pacman  -S --noconfirm --needed coreutils # To install Core-Utilities
-  pacman  -S --noconfirm --needed util-linux # To install Linux-Utilities
-  pacman  -S --noconfirm --needed devtools # To install Development Tools
-  pacman -S --noconfirm --needed git  
-  echo "Do you want pacman to be in colours? [y/n]"
-  read s
-  if [ "$s" == 'y' ]; then
-	 sed -i 's/#Color/Color/g' /etc/pacman.conf
-  fi
+  pacman -S --noconfirm --needed bash coreutils util-linux devtools git
   sleep $defsleep
 }
 
@@ -142,25 +141,25 @@ function partm()
   echo " "
   echo " Commands "
   echo " "
-  echo "d  - delete a partition"
-  echo "l   -list known partition types"
-  echo "n   -add a new partition"
-  echo "p   -print the partition table"
-  echo "t   -change a partition type"
-  echo "v   -verify the partition table"
+  echo "d - delete a partition"
+  echo "l - list known partition types"
+  echo "n - add a new partition"
+  echo "p - print the partition table"
+  echo "t - change a partition type"
+  echo "v - verify the partition table"
   echo " "
   #fdisk /dev/mmcblk0
 }
 
-function passm()
-{
-  ## Password Update
-  echo "Please enter a new password for the root"
-  echo " "
-  passwd # To set new password for Root User
-  sleep $defsleep+1
-  ui
-}
+#function passm()
+#{
+#  ## Password Update
+#  echo "Please enter a new password for the root"
+#  echo " "
+#  passwd # To set new password for Root User
+#  sleep $defsleep+1
+#  ui
+#}
 
 function util()
 {
@@ -170,19 +169,15 @@ function util()
 
 function hname()
 {
-  echo "Your hostname is: "
-  hostname
-  echo "Do you want to change the host name? [y/n]"
+  echo "Your current hostname is:" $(hostname)
+  echo "Do you wish to change the hostname? [y/N]"
   ask
-  cp /etc/hostname /etc/hostname.old
+  cp /etc/hostname /etc/hostname.old # Create a backup for hostname
   rm /etc/hostname
-  touch /etc/hostname
-  echo "Enter a Hostname:"
-  read hn
-  echo "$hn" >> /etc/hostname
+  echo -n "Enter the new hostname:"; read hn
+  echo "$hn" > /etc/hostname
   echo ""
-  echo "Your Hostname is: "
-  hostname
+  echo "Your new hostname is:" $(hostname)
 }
 
 function ui
@@ -201,34 +196,24 @@ function ui
   echo "6. Change Locale **            p. Install pi4j v1.0"
   echo "7. Hostname                    r. Resize Pi v1.1"
   echo "8. Resize root file system **  m. User Pi v2.0"
-  echo "9. Default Installation"  
+  echo "9. Default Installation        t. Change timezone"
   echo "########################################################"
   echo ""
-  echo "Select an option: "
-  read opt
+  echo -n "Select an option: "; read opt
   case $opt in
-	  1) echo "Ping Check Selected" 
-	  echo ""
-	  pingcheck
-	  read s
-	  ui
-	  ;;
+	  1) echo "Ping Check Selected"; echo ""; pingcheck;; 
 	  
 	  2)top
-	  echo "Do you want to update Arch? [y/n]"
-	  echo ""
-	  ask   
+	  echo -n "Do you want to update Arch? [Y/n]"; ask
 	  echo "Updating Arch Linux to its Latest Release"
-	  echo " "
-	  pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
+	  pacman -Syu --noconfirm  # Update Arch Linux
 	  sleep $defsleep
 	  echo " You have the latest Arch ;) "
 	  ui
 	  ;;
 	  
-	  3) echo "Manage Partitions? [y/n]"
-	  echo ""
-	  ask
+	  3) echo -n "You are WARNED not to manage Partitions. Are you sure? [y/N]"
+          ask
 	  partm
 	  read s
 	  ui
@@ -238,15 +223,11 @@ function ui
 	  echo ""	  
 	  ./userm.sh
 	  ui
-	  ;;
+          ;;
 	  
-	  5) echo "Do you want to change Password? [y/n]"	  
-	  ask
-	  passm	  
-	  ;;
+	  5) echo -n "Do you want to change Password? [y/N]"; ask; passwd;;
 	  
-	  6) echo "Do you want to change the Locale? [y/n]"
-	  ask
+	  6) echo -n "Do you want to change the Locale? [y/n]"; ask
 	  echo "Default Locale: "
 	  sleep $defsleep
 	  grep -v ^# /etc/locale.gen
@@ -259,9 +240,7 @@ function ui
 	  ui
 	  ;;
 	  
-	  8)./resize.sh	  
-	  ;;
-	  
+	  8)./resize.sh;;
 	  
 	  9) echo "Default Installation: "
 	  pingcheck
@@ -325,6 +304,12 @@ function ui
 	  ./userm.sh	  
 	  ui
 	  ;;
+          
+          t) set -xz; echo "Your current timezone: " $(cat /etc/timezone)
+          echo -n "Do you wish to change your timezone? [y/N]"; ask
+          echo "Python package needed... Installing python"
+          pacman -S --needed --noconfirm python
+          set +x;;
 	  
 	  q) thank	  
 	  ;;
