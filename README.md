@@ -6,7 +6,7 @@ It is a basic introduction for Configuring Raspberry Pi
 ***Steps to install Raspberry-Pi-AUI:***
 
 1. Download the install file: <br>
-wget https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/aui-setup.sh
+wget https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh
 
 2. Give permission for the setup file: <br>
 chmod +x aui-setup.sh
