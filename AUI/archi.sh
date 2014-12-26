@@ -22,7 +22,7 @@
 
 defsleep=0;
 uisleep=2;
-showwelcome==
+path=/opt/Raspberry-Pi-AUI/AUI
 
 # Functions Declared Here
 
@@ -164,7 +164,7 @@ function partm()
 function util()
 {
   top  
-  ./util.sh
+  $path/./util.sh
 }
 
 function hname()
@@ -221,7 +221,7 @@ function ui
 	  
 	  4) echo "User Management"
 	  echo ""	  
-	  ./userm.sh
+	  $path/./userm.sh
 	  ui
           ;;
 	  
@@ -246,7 +246,7 @@ function ui
 	  pingcheck
 	  defins
 	  addu	  
-	  ./oc.sh
+	  $path/./oc.sh
 	  passm
 	  util
 	  hname	  
@@ -256,12 +256,12 @@ function ui
 	  
 	  c) echo "You have selected Command Pi"
 	  sleep $uisleep	  
-	  ./command.sh
+	  $path/./command.sh
 	  ;;
 	  
 	  d) echo " You have selected Display Pi "
 	  sleep $uisleep	  
-	  ./disp.sh
+	  $path/./disp.sh
 	  read s
 	  ui
 	  ;;
@@ -272,36 +272,36 @@ function ui
 	  echo "Overclocking"
 	  echo "Please make sure oc.sh is present in the same directory"
 	  sleep $uisleep	  
-	  ./oc.sh	  
+	  $path/./oc.sh	  
 	  ui
 	  ;;
 	  
 	  u) echo "You have selected Utility Pi "
 	  sleep $uisleep
-	  ./util.sh
+	  $path/./util.sh
 	  ;;
 	  
 	  l) echo "You have selected LXDE on LAN "
 	  sleep $uisleep
-	  ./lan_lxde.sh	  
+	  $path/./lan_lxde.sh	  
 	  ui
 	  ;;
 	  
 	  p) echo "You have selected pi4j "
 	  sleep $uisleep
-	  ./pi4j.sh	  
+	  $path/./pi4j.sh	  
 	  ui
 	  ;;
 	  
 	  r) echo "You have selected Resize Pi "
 	  sleep $uisleep
-	  ./resize.sh	  
+	  $path/./resize.sh	  
 	  ui
 	  ;;
 	  
 	  m) echo "You have selected User Pi "
 	  sleep $uisleep
-	  ./userm.sh	  
+	  $path/./userm.sh	  
 	  ui
 	  ;;
           
@@ -309,8 +309,9 @@ function ui
           #echo -n "Do you wish to change your timezone? [y/N]"; ask
           #echo "Python package needed... Installing python"
           #pacman -S --needed --noconfirm python
-          #set +x;;
-          echo "Work is in progress!"	  
+          #set +x
+		  ;;
+	  
 	  q) thank	  
 	  ;;
    esac
