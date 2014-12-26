@@ -1,5 +1,5 @@
 #!/bin/bash
-# Utility Pi v1.5
+# Uninstall Pi v1.0
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -19,13 +19,12 @@
 #Default Variables
 defsleep=1
 
-
 #Functions
 function top()
 {
 clear
 echo "##############################################################"
-echo "##   Welcome to Setup Pi v1.0                               ##"
+echo "##   Uninstall Pi v1.0                                      ##"
 echo "##   -- By kingspp                                          ##"
 echo "##############################################################"
 echo "  "
@@ -46,7 +45,7 @@ sleep 1
 
 function ask()
 {
-echo "Are you sure? [Y/n]: "
+echo "Are you sure? [y/n]: "
 read ch
 if [ "$ch" == 'y' ]; then
 echo ""
@@ -68,22 +67,15 @@ exit
 
 checkr
 top
-echo "Do you want to install Arch Linux Ultimate Install? "
+echo "Do you want to uninstall Arch Linux Ultimate Install? "
 ask
-if [ ! -x /usr/bin/git ]; then
-  printf "Installing Git . . . "
-  pacman -S --noconfirm git  
-fi
 cd /opt
-git clone https://github.com/kingspp/Raspberry-Pi-AUI
-cd Raspberry-Pi-AUI/AUI/
-chmod +x archi.sh
-ln -s /opt/Raspberry-Pi-AUI/AUI/archi.sh /usr/bin/aui
-ln -s /opt/Raspberry-Pi-AUI/AUI/disp.sh /usr/bin/aui-disp
-ln -s /opt/Raspberry-Pi-AUI/AUI/oc.sh /usr/bin/aui-oc
-ln -s /opt/Raspberry-Pi-AUI/AUI/userm.sh /usr/bin/aui-userm
-ln -s /opt/Raspberry-Pi-AUI/AUI/util.sh /usr/bin/aui-util
-echo "Installation is complete."
+rm -rf Raspberry-Pi-AUI
+rm /usr/bin/aui
+rm /usr/bin/disp
+rm /usr/bin/oc
+rm /usr/bin/userm
+rm /usr/bin/util
+echo "Uninstallation is complete."
 sleep 2
 aui
-
