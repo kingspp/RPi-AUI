@@ -305,12 +305,12 @@ function ui
 	  ui
 	  ;;
           
-          t) set -xz; echo "Your current timezone: " $(cat /etc/timezone)
-          echo -n "Do you wish to change your timezone? [y/N]"; ask
-          echo "Python package needed... Installing python"
-          pacman -S --needed --noconfirm python
-          set +x;;
-	  
+          t) #set -xz; echo "Your current timezone: " $(cat /etc/timezone)
+          #echo -n "Do you wish to change your timezone? [y/N]"; ask
+          #echo "Python package needed... Installing python"
+          #pacman -S --needed --noconfirm python
+          #set +x;;
+          echo "Work is in progress!"	  
 	  q) thank	  
 	  ;;
    esac
