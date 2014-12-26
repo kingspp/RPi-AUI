@@ -44,6 +44,24 @@ echo ""
 sleep 1
 }
 
+
+function pingcheck
+{
+  top
+  echo "To check if the pi got Internet??!!"
+  echo " "
+  if ping -c 3 google.com &> /dev/null
+  then
+    echo "Success! Pi's got net!!'"
+    sleep $uisleep
+    echo " "
+  else
+    echo "Fail! Please connect to the Internet and Try Again"
+    echo "  "
+  fi
+  thank
+}
+
 function ask()
 {
 echo "Are you sure? [y/n]: "
@@ -68,6 +86,7 @@ exit
 
 checkr
 top
+pingcheck
 echo "Do you want to install Arch Linux Ultimate Install? "
 ask
 if [ ! -x /usr/bin/git ]; then
