@@ -26,6 +26,13 @@ path=/opt/Raspberry-Pi-AUI/AUI
 
 # Functions Declared Here
 
+function update()
+{
+cd /opt/Raspberry-Pi_AUI
+git pull
+cd /root
+}
+
 function perm()
 {	
 	top
@@ -197,6 +204,8 @@ function ui
   echo "7. Hostname                    r. Resize Pi v1.1"
   echo "8. Resize root file system **  m. User Pi v2.0"
   echo "9. Default Installation        t. Change timezone"
+  echo "10.Update AUI**                v. View Credits**  "
+  echo "99.Changelog**"
   echo "########################################################"
   echo ""
   echo -n "Select an option: "; read opt
@@ -251,6 +260,13 @@ function ui
 	  util
 	  hname	  
 	  read s	  
+	  ui
+	  ;;
+	  
+	  10)echo "Checking for AUI Updates . . "
+	  update
+	  echo "Update Complete!"
+	  sleep 1
 	  ui
 	  ;;
 	  
