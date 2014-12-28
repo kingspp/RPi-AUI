@@ -18,10 +18,10 @@ chmod +x aui-setup.sh
 ***Commands:***
 
 aui   - Arch Ultimate Install UI <br>
-disp  - Display UI <br>
-oc    - OverClocking UI <br>
-userm - Usermanagement UI <br> 
-util  - Utility Manager UI <br>
+aui-disp  - Display UI <br>
+aui-oc    - OverClocking UI <br>
+aui-userm - Usermanagement UI <br> 
+aui-util  - Utility Manager UI <br>
 
 **How to commit to the repository?**<br>
 Coming soon...
