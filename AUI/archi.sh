@@ -321,12 +321,22 @@ function ui
 	  ui
 	  ;;
           
-          t) #set -xz; echo "Your current timezone: " $(cat /etc/timezone)
-          #echo -n "Do you wish to change your timezone? [y/N]"; ask
-          #echo "Python package needed... Installing python"
-          #pacman -S --needed --noconfirm python
-          #set +x
-		  ;;
+          t) if [ -f /etc/localtime ]; then
+	    echo "Your current localtime:" $(basename `realpath /etc/localtime`)
+	  else echo "You have not set your timezone."
+	  fi
+          echo -n "Do you wish to set your localtime? [y/N]"; ask # For change
+	  # Not sure if everyone python is in /usr/bin
+	  if [ -f /usr/bin/python2 ]; then # Check for python2 in /usr/bin
+            echo "Python2 is installed."
+	  elif [ -f /usr/bin/python3 ]; then # Check for python3 in /usr/bin 
+	    echo "Python3 in installed." # Change python2 file to python3
+	    sed -i 's/python2/python3/g; s/raw_input/input/g' timezone.py
+	  else echo "Python is not installed... installing python2."
+	    pacman -S --needed --noconfirm python2
+	  fi
+	  $path/./timezone.py # Run timezone.py
+          ;;
 	  
 	  q) thank	  
 	  ;;
