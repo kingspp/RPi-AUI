@@ -1,33 +1,46 @@
 Raspberry-Pi-AUI v6.2
-============
+=====================
+> Basic introduction for Configuring Raspberry Pi
 
-It is a basic introduction for Configuring Raspberry Pi
+Steps to install Raspberry-Pi-AUI:
+----------------------------------
 
-***Steps to install Raspberry-Pi-AUI:***
+1. Download the installation script:
+```
+wget https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh
+```
+(if you get error regarding **wget**, see the [note](https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/README.md#note) in the bottom)
 
-1. Download the install file: <br>
-wget https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh<br>
-(if you get error regarding **wget**, see the note in the bottom)
-
-2. Give permission for the setup file: <br>
+2. Give permission to execute the setup script:
+```
 chmod +x aui-setup.sh
+```
 
-3. Run the install: <br>
-./aui-setup
+3. Run the installation script:
+```
+./aui-setup.sh
+```
 
-***Commands:***
+Commands  | Description
+----------|--------------------------
+aui       | Arch Ultimate Install UI
+aui-disp  | Display UI
+aui-oc    | OverClocking UI
+aui-userm | Usermanagement UI
+aui-util  | Utility Manager UI
 
-aui   - Arch Ultimate Install UI <br>
-aui-disp  - Display UI <br>
-aui-oc    - OverClocking UI <br>
-aui-userm - Usermanagement UI <br> 
-aui-util  - Utility Manager UI <br>
-
-**How to commit to the repository?**<br>
+How to commit to the repository?
+--------------------------------
 Coming soon...
 
-***Note:***<br>
-**Wget error:**<br>
-Execute:<br>
-pacman -Syu <br>
-pacman -S wget <br>
+Note
+----
+**Wget error.** Execute:
+```
+sudo pacman -Syu wget
+```
+
+Milestone
+---------
+- [ ] [Commit to the repository](https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/README.md#how-to-commit-to-the-repository)
+- [ ] Improve UI
