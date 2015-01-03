@@ -5,20 +5,19 @@ Raspberry-Pi-AUI v6.2
 Steps to install Raspberry-Pi-AUI:
 ----------------------------------
 
-1. Download the installation script:
+#### Installation via `wget`:
 ```
-wget https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh
+wget
+https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh
+-O - | sudo bash
 ```
 (if you get error regarding **wget**, see the [note](https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/README.md#note) in the bottom)
 
-2. Give permission to execute the setup script:
+#### Installation via `curl`:
 ```
-chmod +x aui-setup.sh
-```
-
-3. Run the installation script:
-```
-./aui-setup.sh
+curl -L
+https://raw.githubusercontent.com/kingspp/Raspberry-Pi-AUI/master/aui-setup.sh
+| sudo bash
 ```
 
 Commands  | Description
