@@ -26,27 +26,22 @@ top()
 	echo ""
 }
 
-clear
 top
-if [ ! -x /usr/bin/git ]; then
-  printf "Installing Git . . . "
-  pacman -S --noconfirm git  
-fi
 
-clear
+hash git 2>/dev/null || { echo "Installing git..."; pacman -S --noconfirm git; }
 top
+
 git --version
 echo ""
-echo "Please Enter your Username: "
-read uname
-echo "Please Enter your Email   : "
-read umail
+echo -n "Please Enter your Username: " && read us
+echo -n "Please Enter your Email   : " && read em
+echo -n "Please Enter your Editor  : " && read e
 
-git config --global user.name "$uname"
-git config --global user.email "$umail"
+[[ ! -z "$us" ]] && git config --global user.name "$us"
+[[ ! -z "$em" ]] && git config --global user.email "$em"
+hash $e 2>/dev/null && { git config --global core.editor $(which $e) }
+git config --global color.ui "auto" 
 
-echo "Please enter the location of the repo: "
-read repo
+# Needs explaination on this
+echo -n "Please enter the location of the repo: " && read repo
 git remote add origin $repo
-
-
