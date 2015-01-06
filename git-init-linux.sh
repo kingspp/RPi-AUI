@@ -12,23 +12,22 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#-------------------------------------------------------------------------------
+#----------------------------------------------------------------------------
 # Run this script after your first boot with archlinux (as root)
-#------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------
 
-top()
-{
-	clear
-	echo "############################"
-	echo "# Git-Initialization-Linux #"
-	echo "# -- Prathyush             #" 
-	echo "############################"
-	echo ""
+top() {
+  clear
+  echo "############################"
+  echo "# Git-Initialization-Linux #"
+  echo "# -- Prathyush             #" 
+  echo "############################"
+  echo ""
 }
 
 top
 
-hash git 2>/dev/null || { echo "Installing git..."; pacman -S --noconfirm git; }
+hash git 2>/dev/null || { echo "Installing git..."; pacman -S --noconfirm git }
 top
 
 git --version
@@ -41,6 +40,9 @@ echo -n "Please Enter your Editor  : " && read e
 [[ ! -z "$em" ]] && git config --global user.email "$em"
 hash $e 2>/dev/null && { git config --global core.editor $(which $e) }
 git config --global color.ui "auto" 
+git config --global color.branch "auto"
+git config --global color.status "auto"
+git config --global color.diff "auto"
 
 # Needs explaination on this
 echo -n "Please enter the location of the repo: " && read repo
