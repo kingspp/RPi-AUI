@@ -38,15 +38,12 @@ function update() { # Self-update
 function perm() {   # Change permission
   $path/./main.sh title
   echo "Changing Permissions..."
-  chmod +x *.sh *.py 
+  chmod +x *.sh *.py
   sleep $defsleep
 }
 
 function checkr() { # Check if user is running as root
-  if [ "$UID" != 0 ]; then
-    echo "Please run as root!"
-    exit 1
-  fi
+  [[ "$UID" != 0 ]] && { echo "Please run as root!"; exit 1; }
   echo "User running as root!!"
   sleep $defsleep
 }
@@ -158,6 +155,7 @@ function hname() {
 }
 
 function ui() { # User Interface
+  # http://stackoverflow.com/questions/226703/how-do-i-prompt-for-input-in-a-linux-shell-script
   $path/./main.sh title
   echo "Press q to quit"
   echo -e " $r**$w --> To do (Be Cautious)"
@@ -192,13 +190,13 @@ function ui() { # User Interface
     read s
     ui
     ;;
-  
+
     4) echo "User Management"; echo
     $path/./userm.sh; ui    # Return to user interface
     ;;
-  
+
     5) $path/./yn.sh "Do you want to change $r\Root$w Password? [y/N]" && passwd;;  # Too long! -> Need to shorten
-  
+
     6) $path/./yn.sh "Do you want to change the Locale? [y/N]" || ui
     echo -n "Default Locale: "
     sleep $defsleep
@@ -206,11 +204,11 @@ function ui() { # User Interface
     read s
     ui
     ;;
-  
+
     7) hname; ui;;
-  
+
     8) $path/./resize.sh;;
-  
+
     9) echo "Default Installation: "
     pingcheck
     defins
@@ -218,8 +216,8 @@ function ui() { # User Interface
     $path/./oc.sh
     passm
     util
-    hname	  
-    read s	  
+    hname
+    read s
     ui
     ;;
 
@@ -230,43 +228,43 @@ function ui() { # User Interface
     ;;
 
     c) echo "You have selected Command Pi"
-    sleep $uisleep	  
+    sleep $uisleep
     $path/./command.sh
     ;;
-  
+
     d) echo " You have selected Display Pi "
-    sleep $uisleep	  
+    sleep $uisleep
     $path/./disp.sh
     ui
     ;;
-  
+
     o) $path/./yn.sh "Do you want to OverClock PI? [y/n]" || ui
     echo "You have selected Overclock Pi"
     sleep $uisleep
     $path/./oc.sh
     ui
     ;;
-  
+
     u) echo "You have selected Utility Pi "
     sleep $uisleep
     $path/./util.sh
     ;;
-  
+
     l) echo "You have selected LXDE on LAN "
     sleep $uisleep
-    $path/./lan_lxde.sh	  
+    $path/./lan_lxde.sh
     ui
     ;;
-  
+
     p) echo "You have selected pi4j "
     sleep $uisleep
-    $path/./pi4j.sh	  
+    $path/./pi4j.sh
     ui
     ;;
-  
+
     r) echo "You have selected Resize Pi "
     sleep $uisleep
-    $path/./resize.sh	  
+    $path/./resize.sh
     ui
     ;;
 
@@ -299,7 +297,7 @@ function ui() { # User Interface
 #----------------------------------------------------------------------------
 # Main
 #----------------------------------------------------------------------------
-#echo "To check if user is running as Root"; checkr
+echo "To check if user is running as Root"; sleep 1; checkr
 perm    # Title in perm
 sleep $defsleep
 ui  # Start the user interface

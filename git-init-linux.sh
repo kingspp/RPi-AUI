@@ -27,7 +27,7 @@ top() {
 
 top
 
-hash git 2>/dev/null || { echo "Installing git..."; pacman -S --noconfirm git }
+hash git 2>/dev/null || { echo "Installing git..."; pacman -S --noconfirm git; }
 top
 
 git --version
