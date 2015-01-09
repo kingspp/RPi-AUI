@@ -20,7 +20,7 @@ top() {
   clear
   echo "############################"
   echo "# Git-Initialization-Linux #"
-  echo "# -- Prathyush             #" 
+  echo "# -- Prathyush             #"
   echo "############################"
   echo ""
 }
@@ -38,8 +38,8 @@ echo -n "Please Enter your Editor  : " && read e
 
 [[ ! -z "$us" ]] && git config --global user.name "$us"
 [[ ! -z "$em" ]] && git config --global user.email "$em"
-hash $e 2>/dev/null && { git config --global core.editor $(which $e) }
-git config --global color.ui "auto" 
+hash $e 2>/dev/null && git config --global core.editor $(which $e)
+git config --global color.ui "auto"
 git config --global color.branch "auto"
 git config --global color.status "auto"
 git config --global color.diff "auto"
