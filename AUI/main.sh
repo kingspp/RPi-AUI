@@ -1,7 +1,7 @@
 #!/bin/bash
 #---------------------------------------------------------------------------
-# Created by Ivan Tham <pickfire@riseup.net> - Wed Jan  7 01:38:06 UTC 2015
-# USAGE		    : main.sh [title] [thank]
+# Created by Ivan Tham <pickfire@riseup.net> - Fri Jan 16 15:23:48 UTC 2015
+# USAGE		    : main.sh [root] [title] [thank]
 # DESCRIPTION	: Reuse code
 #---------------------------------------------------------------------------
 #    Copyright (C) Prathyush 2015
@@ -25,12 +25,17 @@ defsleep=0  # function sleep time
 uisleep=2
 
 
+# Functions
+function root() {
+  [[ $UID -eq 0 ]] && echo "User running as root." || echo -e "\033[91mPlease run as root!\033[0m"
+}
+
 function title() {  # put whatever title you like here
-  echo -e "\033[92m     ____  ____  _       ___   __  ______                 "
-  echo -e "\033[92m    / __ \/ __ \(_)     /   | / / / /  _/   Raspberry Pi  "
-  echo -e "\033[92m   / /_/ / /_/ / ______/ /| |/ / / // /    ArchLinux-Arm  "
-  echo -e "\033[92m  / _, _/ ____/ /_____/ ___ / /_/ _/ /    [ Ultimate ]    "
-  echo -e "\033[92m /_/ |_/_/   /_/     /_/  |_\____/___/   Installer        "
+  echo -e "\033[92m     ____  ____  _       ___   __  ______                "
+  echo -e "\033[92m    / __ \/ __ \(_)     /   | / / / /  _/   Raspberry Pi "
+  echo -e "\033[92m   / /_/ / /_/ / ______/ /| |/ / / // /    ArchLinux-Arm "
+  echo -e "\033[92m  / _, _/ ____/ /_____/ ___ / /_/ _/ /    [ Ultimate ]   "
+  echo -e "\033[92m /_/ |_/_/   /_/     /_/  |_\____/___/   Installer       "
   echo -e "\033[0m"; return 0
 }
 
@@ -40,6 +45,8 @@ function thank() {
   $path/./yn.sh "Reboot to apply changes? [y/N]" && reboot || exit 0
 }
 
+
+# Main
 for i in $*; do
   $i
 done
