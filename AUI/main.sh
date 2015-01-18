@@ -1,6 +1,6 @@
 #!/bin/bash
 #---------------------------------------------------------------------------
-# Created by Ivan Tham <pickfire@riseup.net> - Fri Jan 16 15:23:48 UTC 2015
+# Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
 # USAGE		    : main.sh [root] [title] [thank]
 # DESCRIPTION	: Reuse code
 #---------------------------------------------------------------------------
@@ -26,8 +26,11 @@ uisleep=2
 
 
 # Functions
-function root() {
-  [[ $UID -eq 0 ]] && echo "User running as root." || echo -e "\033[91mPlease run as root!\033[0m"
+function root() {   # exit 1 if not running as root
+  echo -en "Checking if user is running as \033[91mROOT\033[0m"; sleep 0.5
+  for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
+  [[ $UID -eq 0 ]] && echo -e "\033[92mUser running as root.\033[0m" || { \
+    echo -e "\033[91mPlease run as root!\033[0m"; exit 1; }
 }
 
 function title() {  # put whatever title you like here
@@ -39,9 +42,8 @@ function title() {  # put whatever title you like here
   echo -e "\033[0m"; return 0
 }
 
-function thank() {
-  echo
-  echo "Thank You --By Kingspp"
+function thank() {  # exit 0 if not rebooting
+  echo; echo "Thank You --By Kingspp"   # add new line and ending message
   $path/./yn.sh "Reboot to apply changes? [y/N]" && reboot || exit 0
 }
 
@@ -49,4 +51,4 @@ function thank() {
 # Main
 for i in $*; do
   $i
-done
+done; exit 0    # return success to the system when the loop finish

@@ -1,7 +1,8 @@
 #!/bin/bash
-# Overclocking Pi v2.0
-# Created by Ivan Tham <pickfire@riseup.net> - Sun Jan 11 06:58:45 UTC 2015
-# DESCRIPTION	: Overclocking the Raspberry Pi
+# Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 11 06:58:45 UTC 2015
+# FILE          : Overclocking Pi v0.1
+# DESCRIPTION   : Overclocking the Raspberry Pi
+# TODO(pickfire): Add gpu memory split
 #---------------------------------------------------------------------------
 #    Copyright © Prathyush 2015
 #
@@ -195,11 +196,11 @@ Press '\033[91mq\033[0m' to return to main menu.
   defconf
 
   case $opt in
-    1) mode="None";   a_freq=700; c_freq=250; sd_freq=400; ov=0;;
-    2) mode="Modest"; a_freq=800; c_freq=300; sd_freq=400; ov=0;;
-    3) mode="Medium"; a_freq=900; c_freq=333; sd_freq=450; ov=2;;
-    4) mode="High";   a_freq=950; c_freq=450; sd_freq=450; ov=6;;
-    5) mode="Turbo";  a_freq=1000; c_freq=500; sd_freq=500; ov=6;;
+    1) mode="None";   a_freq=700; c_freq=250; sd_freq=400; ov=0; ;;
+    2) mode="Modest"; a_freq=800; c_freq=300; sd_freq=400; ov=0; ;;
+    3) mode="Medium"; a_freq=900; c_freq=333; sd_freq=450; ov=2; ;;
+    4) mode="High";   a_freq=950; c_freq=450; sd_freq=450; ov=6; ;;
+    5) mode="Turbo"; a_freq=1000; c_freq=500; sd_freq=500; ov=6; ;;
     6) echo "You are warned not to select custom mode."
       $path/./yn.sh "Do you wish to continue? [y/N]" || cpu_f
       echo -e "\033[91mBe very careful while entering!!\033[0m"; sleep 1
@@ -208,9 +209,9 @@ Press '\033[91mq\033[0m' to return to main menu.
       custom_ask "Enter the Core frequency: [250-500]"; c_freq=$a
       custom_ask "Enter the SD-RAM frequency: [400-500]"; sd_freq=$a
       custom_ask "Enter the Over Voltage: [0-6]"; ov=$a
-    ;;
-    q) ui;;
-    *) echo "You enter an invalid option!"; sleep 1; cpu_f
+      ;;
+    q) ui ;;
+    *) echo "You enter an invalid option!"; sleep 1; cpu_f ;;
   esac
 
   # Ask for changes after setting variables
@@ -226,7 +227,7 @@ Press '\033[91mq\033[0m' to return to main menu.
 arm_freq=$a_freq
 core_freq=$c_freq
 sdram_freq=$sd_freq
-over_voltage=$ov" #>> /boot/config.txt
+over_voltage=$ov" >> /boot/config.txt
   fin   # finished
 }
 
@@ -311,5 +312,4 @@ function ui() {
 #----------------------------------------------------------------------------
 # Main
 #----------------------------------------------------------------------------
-checkr # To check if running as Root
-ui  # User Interface
+$path/./main.sh root && ui || exit 1    # enter ui if running as root
