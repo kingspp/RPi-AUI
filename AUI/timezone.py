@@ -1,5 +1,6 @@
 #!/usr/bin/python2
 # Created by Ivan Tham - 23rd December 2014
+# TODO(pickfire): Translate to sh and merge into archi.sh
 # A simple python script to change the timezone
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
