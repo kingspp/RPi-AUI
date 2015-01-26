@@ -1,8 +1,10 @@
 #!/bin/bash
 #---------------------------------------------------------------------------
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
-# USAGE		    : main.sh [root] [title] [thank]
-# DESCRIPTION	: Reuse code
+# SYNOPSIS      : main.sh [root] [title] [thank] [net]
+# DESCRIPTION   : Reuse code
+# TODO(pickfire): add net function
+# TODO(pickfire): add colors variable for use in main.sh
 #---------------------------------------------------------------------------
 #    Copyright (C) Prathyush 2015
 #
@@ -20,9 +22,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #---------------------------------------------------------------------------
 # The default path, must be on every file
-path=/opt/RPi-AUI/AUI
+rpi_aui=/opt/RPi-AUI/AUI
 defsleep=0  # function sleep time
 uisleep=2
+# ------------------------------------------------------------------------ #
+# Color variable for use in main.sh
+# Usage: . main.sh
+# Bold: 1, Underline: 4, Highlight: 7, Blink: 8
+# Color     # Strong(bold)   # Background       # Color Name
+R="\033[91m"; SR="\033[91;1m"; BR="\033[91;1m"  # Red
+G="\033[92m"; SG="\033[92;1m"; BG="\033[92;1m"  # Green
+Y="\033[93m"; SY="\033[93;1m"; BY="\033[93;1m"  # Yellow
+B="\033[94m"; SB="\033[94;1m"; BB="\033[94;1m"  # Blue
+P="\033[95m"; SP="\033[95;1m"; BP="\033[95;1m"  # Pink
+I="\033[96m"; SI="\033[96;1m"; BI="\033[95;1m"  # Indigo
+W="\033[m"                       # White(reset)
+# ------------------------------------------------------------------------ #
 
 
 # Functions
@@ -31,6 +46,14 @@ function root() {   # exit 1 if not running as root
   for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
   [[ $UID -eq 0 ]] && echo -e "\033[92mUser running as root.\033[0m" || { \
     echo -e "\033[91mPlease run as root!\033[0m"; exit 1; }
+}
+
+function net() {   # ping test to google.com
+  echo -en "Checking for internet connection"; sleep 0.2
+  for i in $(seq 3); do echo -n '.'; sleep 1; done  # waiting time
+  ping -c 1 google.com &>/dev/null && { echo -e "${G}Success!\n$W"; return \
+    0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W";
+    return 1; }
 }
 
 function title() {  # put whatever title you like here
@@ -44,7 +67,7 @@ function title() {  # put whatever title you like here
 
 function thank() {  # exit 0 if not rebooting
   echo; echo "Thank You --By Kingspp"   # add new line and ending message
-  $path/./yn.sh "Reboot to apply changes? [y/N]" && reboot || exit 0
+  $rpi_aui/./yn.sh "Reboot to apply changes? [y/N]" && reboot || exit 0
 }
 
 
