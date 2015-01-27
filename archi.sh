@@ -1,6 +1,7 @@
 #!/bin/bash
 # Created by Ivan Tham <pickfire@riseup.net> - Fri Jan  9 03:29:46 UTC 2015
 # DESCRIPTION	: The main part of RPi-AUI
+# TODO(pickfire): colorized output and reorganize TUI
 # Arch Installer- Raspberry Pi v6.2
 # Remove Carriage return sed -i 's/ \r//g' <filename>
 #---------------------------------------------------------------------------
@@ -22,21 +23,21 @@
 # Run this script after your first boot with archlinux (as root)
 # Variables
 #----------------------------------------------------------------------------
+rpi_aui=/opt/RPi-AUI/AUI; rpi_doc=/opt/RPi-AUI/doc
 defsleep=0;
 uisleep=2;
-path=/opt/RPi-AUI/AUI
 r='\033[91m'; g='\033[92m'; w='\033[0m' # Colours
 
 #----------------------------------------------------------------------------
 # Functions
 #----------------------------------------------------------------------------
 function update() { # Self-update
-  cd $path
+  cd $rpi_aui
   git pull
 }
 
 function perm() {   # Change permission
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo "Changing Permissions..."
   chmod +x *.sh *.py
   sleep $defsleep
@@ -48,7 +49,7 @@ function checkr() { # Check if user is running as root
   sleep $defsleep
 }
 
-#function top() { # function top -> $path/./main.sh title
+#function top() { # function top -> $rpi_aui/./main.sh title
 #  clear
 #  echo "##############################################################"
 #  echo "##   Welcome to Arch Linux - Raspberry Pi Setup v6.2        ##"
@@ -58,7 +59,7 @@ function checkr() { # Check if user is running as root
 #  sleep $defsleep
 #}
 
-#function ask() { # ask -> $path/./yn.sh "Is this what you want? [Y/n]"
+#function ask() { # ask -> $rpi_aui/./yn.sh "Is this what you want? [Y/n]"
 #  read ch
 #  if [ "$ch" == 'y' ] || [ "ch" == "Y" ] ; then
 #  	echo ""
@@ -67,7 +68,7 @@ function checkr() { # Check if user is running as root
 #  fi
 #}
 
-#function thank # thank replaced by $path/./main.sh thank
+#function thank # thank replaced by $rpi_aui/./main.sh thank
 #  top
 #  echo ""
 #  echo ""
@@ -84,7 +85,7 @@ function checkr() { # Check if user is running as root
 #}
 
 function pingcheck() {
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo -e "To check if the pi got Internet??!!\n"
   ping -c 3 google.com 2>/dev/null && { echo -e "Success! Pi's got net!!"; \
     sleep $uisleep; ui; } || \
@@ -92,8 +93,8 @@ function pingcheck() {
 }
 
 function defins() { # Default Installation
-  $path/./main.sh title
-  $path/./yn.sh "Do you want pacman to be in colours? [Y/n]" && \
+  $rpi_aui/./main.sh title
+  $rpi_aui/./yn.sh "Do you want pacman to be in colours? [Y/n]" && \
     sed -i 's/#Color/Color/g' /etc/pacman.conf
   echo "Updating Arch Linux to its Latest Release"
   echo " "
@@ -114,7 +115,7 @@ function defins() { # Default Installation
 }
 
 function partm() {
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo " Lets Utilize full size of the Memory Card "
   echo "Partition Manager"
   echo " "
@@ -141,13 +142,13 @@ function partm() {
 #}
 
 function util() {
-  $path/./main.sh title
-  $path/./util.sh
+  $rpi_aui/./main.sh title
+  $rpi_aui/./util.sh
 }
 
 function hname() {
   echo "Your current hostname is:" $(hostname)
-  $path/./yn.sh "Do you wish to change the hostname? [y/N]" || ui
+  $rpi_aui/./yn.sh "Do you wish to change the hostname? [y/N]" || ui
   cp /etc/hostname /etc/hostname.old # Create a backup for hostname
   rm /etc/hostname; echo -n "Enter the new hostname:"; read hn
   echo "$hn" > /etc/hostname; echo
@@ -156,7 +157,7 @@ function hname() {
 
 function ui() { # User Interface
   # http://stackoverflow.com/questions/226703/how-do-i-prompt-for-input-in-a-linux-shell-script
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo "Press q to quit"
   echo -e " $r**$w --> To do (Be Cautious)"
   echo ""
@@ -178,26 +179,26 @@ function ui() { # User Interface
   case $opt in
     1) echo -e "Ping Check Selected\n"; pingcheck;;
 
-    2) $path/./main.sh title
-    $path/./yn.sh "Do you want to update Arch? [Y/n]" || ui # Else
+    2) $rpi_aui/./main.sh title
+    $rpi_aui/./yn.sh "Do you want to update Arch? [Y/n]" || ui # Else
     echo "Updating Arch Linux to its Latest Release..."
     pacman -Syu --noconfirm; sleep $defsleep    # Update Arch Linux & sleep
     echo " You have the latest Arch ;) "; ui    # Back to user interface
     ;;
 
-    3) $path/./yn.sh "You are $rWARNED$w not to manage Partitions. Are you sure? [y/N]" || ui # Too long! -> Need to shorten
+    3) $rpi_aui/./yn.sh "You are $rWARNED$w not to manage Partitions. Are you sure? [y/N]" || ui # Too long! -> Need to shorten
     partm
     read s
     ui
     ;;
 
     4) echo "User Management"; echo
-    $path/./userm.sh; ui    # Return to user interface
+    $rpi_aui/./userm.sh; ui    # Return to user interface
     ;;
 
-    5) $path/./yn.sh "Do you want to change $r\Root$w Password? [y/N]" && passwd;;  # Too long! -> Need to shorten
+    5) $rpi_aui/./yn.sh "Do you want to change $r\Root$w Password? [y/N]" && passwd;;  # Too long! -> Need to shorten
 
-    6) $path/./yn.sh "Do you want to change the Locale? [y/N]" || ui
+    6) $rpi_aui/./yn.sh "Do you want to change the Locale? [y/N]" || ui
     echo -n "Default Locale: "
     sleep $defsleep
     grep -v ^# /etc/locale.gen
@@ -207,13 +208,13 @@ function ui() { # User Interface
 
     7) hname; ui;;
 
-    8) $path/./resize.sh;;
+    8) $rpi_aui/./resize.sh;;
 
     9) echo "Default Installation: "
     pingcheck
     defins
     # addu # What does this mean?
-    $path/./oc.sh
+    $rpi_aui/./oc.sh
     passm
     util
     hname
@@ -229,67 +230,67 @@ function ui() { # User Interface
 
     c) echo "You have selected Command Pi"
     sleep $uisleep
-    $path/./command.sh
+    $rpi_aui/./command.sh
     ;;
 
     d) echo " You have selected Display Pi "
     sleep $uisleep
-    $path/./disp.sh
+    $rpi_aui/./disp.sh
     ui
     ;;
 
-    o) $path/./yn.sh "Do you want to OverClock PI? [y/n]" || ui
+    o) $rpi_aui/./yn.sh "Do you want to OverClock PI? [y/n]" || ui
     echo "You have selected Overclock Pi"
     sleep $uisleep
-    $path/./oc.sh
+    $rpi_aui/./oc.sh
     ui
     ;;
 
     u) echo "You have selected Utility Pi "
     sleep $uisleep
-    $path/./util.sh
+    $rpi_aui/./util.sh
     ;;
 
     l) echo "You have selected LXDE on LAN "
     sleep $uisleep
-    $path/./lan_lxde.sh
+    $rpi_aui/./lan_lxde.sh
     ui
     ;;
 
     p) echo "You have selected pi4j "
     sleep $uisleep
-    $path/./pi4j.sh
+    $rpi_aui/./pi4j.sh
     ui
     ;;
 
     r) echo "You have selected Resize Pi "
     sleep $uisleep
-    $path/./resize.sh
+    $rpi_aui/./resize.sh
     ui
     ;;
 
     m) echo "You have selected User Pi "
     sleep $uisleep
-    $path/./userm.sh
+    $rpi_aui/./userm.sh
     ui
     ;;
 
     t) [[ ! -f /etc/localtime ]] && echo "You have not set your timezone." ||
     echo "Your current localtime:" $(basename `realpath /etc/localtime`)
-    $path/./yn.sh "Do you wish to set your localtime? [y/N]" || ui
+    $rpi_aui/./yn.sh "Do you wish to set your localtime? [y/N]" || ui
     if hash python2 2>/dev/null; then
       echo "Python2 is installed."
     elif hash python3 2>/dev/null; then
       # Translate to python3 if python3 is installed
       echo "Python3 in installed."
-      sed -i 's/python2/python3/g; s/raw_input/input/g' $path/timezone.py
+      sed -i 's/python2/python3/g; s/raw_input/input/g' $rpi_aui/timezone.py
     else echo "Python is not installed... installing python2."
       pacman -S --needed --noconfirm python2
     fi
-    $path/./timezone.py # Run timezone.py
+    $rpi_aui/./timezone.py # Run timezone.py
     ;;
 
-    q) $path/./main.sh title thank;;
+    q) $rpi_aui/./main.sh title thank;;
   esac
 }
 

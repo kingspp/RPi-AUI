@@ -2,7 +2,10 @@
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 11 06:58:45 UTC 2015
 # FILE          : Overclocking Pi v0.1
 # DESCRIPTION   : Overclocking the Raspberry Pi
+# TODO(pickfire): Fix those ask and gov function
 # TODO(pickfire): Add gpu memory split
+# TODO(pickfire): Better backup system
+# TODO(pickfire): Add restore function
 #---------------------------------------------------------------------------
 #    Copyright © Prathyush 2015
 #
@@ -22,65 +25,13 @@
 # Run this script after your first boot with archlinux (as root)
 #----------------------------------------------------------------------------
 # Defaults
-path=/opt/RPi-AUI/AUI
+rpi_aui=/opt/RPi-AUI/AUI; rpi_doc=/opt/RPi-AUI/doc
 
 
 #Functions
-function checkr() {
-[[ "$UID" -ne 0 ]] && { echo "Please run as root!"; exit 1; }
-echo "User running as root!!"
-echo "Got Superuser ability !!"
-echo ""
-sleep 1
-}
-
 function defconf() {
-echo "# uncomment if you get no picture on HDMI for a default 'safe' mode
-#hdmi_safe=1
-
-# uncomment this if your display has a black border of unused pixels visible
-# and your display can output without overscan
-#disable_overscan=1
-
-# uncomment the following to adjust overscan. Use positive numbers if console
-# goes off screen, and negative if there is too much border
-#overscan_left=16
-#overscan_right=16
-#overscan_top=16
-#overscan_bottom=16
-
-# uncomment to force a console size. By default it will be display's size minus
-# overscan.
-#framebuffer_width=1280
-#framebuffer_height=720
-
-# uncomment if hdmi display is not detected and composite is being output
-#hdmi_force_hotplug=1
-
-# uncomment to force a specific HDMI mode (this will force VGA)
-#hdmi_group=1
-#hdmi_mode=1
-
-# uncomment to force a HDMI mode rather than DVI. This can make audio work in
-# DMT (computer monitor) modes
-#hdmi_drive=2
-
-# uncomment to increase signal to HDMI, if you have interference, blanking, or
-# no display
-#config_hdmi_boost=4
-
-# uncomment for composite PAL
-#sdtv_mode=2
-
-# for more options see http://elinux.org/RPi_config.txt
-
-gpu_mem_512=316
-gpu_mem_256=128
-#cma_lwm=16
-#cma_hwm=32
-#cma_offline_start=16
-" >> /boot/config.txt
-echo ""
+  cp $rpi_doc/config.txt >> /boot/config.txt
+  echo ""
 }
 
 function ask() {
@@ -167,14 +118,16 @@ sleep 1
 }
 
 function do_backup() {
-  echo "Let's backup old config.txt for emergency"
-  cp /boot/config.txt /boot/config.old
-  echo  "Success! Backed up as config.old"
+  [ -f /boot/config.txt -a ! -f /boot/config.bak ] &&
+    echo "Let's backup old config.txt for emergency" &&
+    cp /boot/config.txt /boot/config.bak &&
+    echo "Success! Backed up as config.bak" &&
+    defconf
   sleep 1
 }
 
 function cpu_f() {
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo -e "
 Press '\033[91mq\033[0m' to return to main menu.
 
@@ -202,7 +155,7 @@ Press '\033[91mq\033[0m' to return to main menu.
     4) mode="High";   a_freq=950; c_freq=450; sd_freq=450; ov=6; ;;
     5) mode="Turbo"; a_freq=1000; c_freq=500; sd_freq=500; ov=6; ;;
     6) echo "You are warned not to select custom mode."
-      $path/./yn.sh "Do you wish to continue? [y/N]" || cpu_f
+      $rpi_aui/./yn.sh "Do you wish to continue? [y/N]" || cpu_f
       echo -e "\033[91mBe very careful while entering!!\033[0m"; sleep 1
       mode="Custom" # $a is the user input value
       custom_ask "Enter the ARM frequency: [700-1200]"; a_freq=$a
@@ -220,7 +173,7 @@ Press '\033[91mq\033[0m' to return to main menu.
   echo "core_freq=$c_freq"
   echo "sdram_freq=$sd_freq"
   echo "over_voltage=$ov"
-  $path/./yn.sh "Are you sure? [y/N]" || ui
+  $rpi_aui/./yn.sh "Are you sure? [y/N]" || ui
 
   # Apply the changes to /boot/config.txt
   echo "# $mode Preset
@@ -232,7 +185,7 @@ over_voltage=$ov" >> /boot/config.txt
 }
 
 function gov() {
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo "Governors"
   echo ""
   curgov=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
@@ -245,8 +198,8 @@ function gov() {
 4. Ondemand
 5. Performance
 "
-  path=/etc/bash.bashrc
-  sed -i '/scaling_governor/d' $path
+  bash_path=/etc/bash.bashrc
+  sed -i '/scaling_governor/d' $bash_path
 
   echo ""
   echo "Enter your Preferred Governor: [1-5]: "
@@ -255,31 +208,31 @@ function gov() {
     1) echo "You have selected Conservative"
       ask
       echo "conservative" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-      echo -n "echo \"conservative\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
+      echo -n "echo \"conservative\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $bash_path
     ;;
 
     2) echo "You have selected Userspace"
       ask
       echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-      echo -n "echo \"userspace\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
+      echo -n "echo \"userspace\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $bash_path
     ;;
 
     3) echo "You have selected Powersave"
       ask
       echo "powersave" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-      echo -n "echo \"powersave\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
+      echo -n "echo \"powersave\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $bash_path
     ;;
 
     4) echo "You have selected Ondemand"
       ask
       echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-      echo -n "echo \"ondemand\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
+      echo -n "echo \"ondemand\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $bash_path
     ;;
 
     5) echo "You have selected Performance"
       ask
       echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-      echo -n "echo \"performance\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $path
+      echo -n "echo \"performance\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> $bash_path
     ;;
   esac
   fin
@@ -287,7 +240,7 @@ function gov() {
 }
 
 function ui() {
-  $path/./main.sh title
+  $rpi_aui/./main.sh title
   echo -e "Press '\033[91mq\033[0m' to quit"
   echo ""
   do_backup
@@ -300,7 +253,7 @@ function ui() {
   case $opt in
     1) cpu_f;;
     2) gov;;
-    q) $path/./main.sh title thank; exit 0;;
+    q) $rpi_aui/./main.sh title thank; exit 0;;
     *) echo "You selected an invalid option."; sleep 1; ui;;
   esac
   ## Overclocking Settings
@@ -312,4 +265,4 @@ function ui() {
 #----------------------------------------------------------------------------
 # Main
 #----------------------------------------------------------------------------
-$path/./main.sh root && ui || exit 1    # enter ui if running as root
+$rpi_aui/./main.sh root && ui || exit 1    # enter ui if running as root

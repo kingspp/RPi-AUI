@@ -1,5 +1,6 @@
 #!/bin/bash
 # Uninstall Pi v1.0
+# TODO(pickfire): Merge this file with aui-setup.sh
 #---------------------------------------------------------------------------
 #    Copyright (C) Prathyush 2015
 #

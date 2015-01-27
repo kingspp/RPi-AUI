@@ -3,7 +3,6 @@
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
 # SYNOPSIS      : main.sh [root] [title] [thank] [net]
 # DESCRIPTION   : Reuse code
-# TODO(pickfire): add net function
 # TODO(pickfire): add colors variable for use in main.sh
 #---------------------------------------------------------------------------
 #    Copyright (C) Prathyush 2015
