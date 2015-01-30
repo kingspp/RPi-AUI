@@ -16,7 +16,7 @@
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 #----------------------------------------------------------------------------
-while true; do  # ask again when there's no default preference
+while : ; do  # ask again when there's no default preference
   # Usage: $path/./main.sh yn "Question: [Y/n]"   Note: [Y/n] -> default Y
   echo -en "$1 "; read -n 1 ans; echo # echo with 1 space & read 1 character
   [[ $ans == [Yy] ]] && { exit 0; } # return success if ans = y or Y
