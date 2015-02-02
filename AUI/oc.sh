@@ -4,7 +4,6 @@
 # DESCRIPTION   : Overclocking the Raspberry Pi
 # TODO(pickfire): Fix those ask and gov function
 # TODO(pickfire): Add gpu memory split
-# TODO(pickfire): Better backup system
 # TODO(pickfire): Add restore function
 #---------------------------------------------------------------------------
 #    Copyright © Prathyush 2015
@@ -24,13 +23,16 @@
 #----------------------------------------------------------------------------
 # Run this script after your first boot with archlinux (as root)
 #----------------------------------------------------------------------------
-# Defaults
+# Variables
 rpi_aui=/opt/RPi-AUI/AUI; rpi_doc=/opt/RPi-AUI/doc
+conf=/boot/config.txt; cmdl=/boot/cmdline.txt
 
 
-#Functions
+#----------------------------------------------------------------------------
+# Functions
+#----------------------------------------------------------------------------
 function defconf() {
-  cp $rpi_doc/config.txt >> /boot/config.txt
+  cp $rpi_doc/config.txt > /boot/config.txt
   echo ""
 }
 
@@ -43,7 +45,6 @@ else
 thank
 fi
 }
-
 
 function ask1() {
 echo "Are you sure? [Y/N]: "
@@ -83,7 +84,7 @@ function check() {
   echo "Over Voltage: $(/opt/vc/bin/vcgencmd get_config over_voltage)"; sleep 1
 }
 
-function custom_ask {   # 1 parameter "Enter the ARM frequency: [700-1200]"
+function custom_ask() {   # 1 parameter "Enter the ARM frequency: [700-1200]"
   while true; do
     echo -n "$1 "; read a
     f=$(grep -o '[0-9]*-' <<< $1 | head -c -2)    # first 700
@@ -119,69 +120,67 @@ sleep 1
 
 function do_backup() {
   [ -f /boot/config.txt -a ! -f /boot/config.bak ] &&
-    echo "Let's backup old config.txt for emergency" &&
-    cp /boot/config.txt /boot/config.bak &&
-    echo "Success! Backed up as config.bak" &&
-    defconf
+    echo "Let's backup old config.txt as config.bak for emergency." &&
+    cp /boot/config.txt /boot/config.bak
   sleep 1
 }
 
-function cpu_f() {
-  $rpi_aui/./main.sh title
-  echo -e "
-Press '\033[91mq\033[0m' to return to main menu.
+function set_config() {   # USAGE: set_config arm_freq 700 ($1:Key,$2:Value)
+  # TODO(pickfire): Change this to sed in one line(still no idea,INSANE!)
+  grep -qs $1 $conf && sed -i "/$1=/c $1=$2" $conf || echo "$1=$2" >> $conf
+  exit 0    # search $1 and change "$1=*" to "$1=$2" or append "$1=$2" to EOF
+}
+
+function cpu_f() {  # Cpu Frequency function
+  $rpi_aui/./main.sh title  # Show the title every time
+
+  # The value of $conf(if empty use default) and change to 6 digits in spaces
+  arm=$(sed -n 's/arm_freq=// p' $conf); arm=$(printf %6d ${arm:-700})
+  cor=$(sed -n 's/core_freq=// p' $conf); cor=$(printf %6d ${cor:-250})
+  sdr=$(sed -n 's/sdram_freq=// p' $conf); sdr=$(printf %6d ${sdr:-400})
+  ov=$(sed -n 's/over_voltage=// p' $conf); ov=$(printf %6d ${oc:-0})
+  printf "Press '\033[31mq\033[0m' to return to main menu. (abort changes)
 
   ------------------------------------------------------------------------
- | Presets          |   None | Modest | Medium |   High |  Turbo | Custom |
+ | Presets          |   None | Modest | Medium |   High |  Turbo |    Now |
  |------------------|--------|--------|--------|--------|--------|--------|
- | arm_freq (Mhz)   |    700 |    800 |    900 |    950 |   1000 |    ?   |
- | core_freq (Mhz)  |    250 |    300 |    333 |    450 |    500 |    ?   |
- | sdram_freq (Mhz) |    400 |    400 |    450 |    450 |    500 |    ?   |
- | over_voltage (V) |      0 |      0 |      2 |      6 |      6 |    ?   |
+ | arm_freq (Mhz)   |    700 |    800 |    900 |    950 |   1000 | $arm |
+ | core_freq (Mhz)  |    250 |    300 |    333 |    450 |    500 | $cor |
+ | sdram_freq (Mhz) |    400 |    400 |    450 |    450 |    500 | $sdr |
+ | over_voltage (V) |      0 |      0 |      2 |      6 |      6 | $ov |
   ------------------------------------------------------------------------
-  * Custom preset is \033[91mNOT\033[0m encouraged.
-"
-  echo "1) None     2) Modest   3) Medium"
-  echo "4) High     5) Turbo    6) Custom"
-  echo ""; echo -n "Select the Preset [1-6]: "; read -n 1 opt; echo ""
-  rm /boot/config.txt
-  touch /boot/config.txt
-  defconf
+  * Custom preset -> ? (\033[31mNOT\033[0m encouraged!)
+  1) None   2) Modest   3) Medium   4) High     5) Turbo    6) Custom"
+  echo -e "\n"; echo -n "Select the Preset [1-6]: "; read -n 1 opt; echo ""
 
-  case $opt in
-    1) mode="None";   a_freq=700; c_freq=250; sd_freq=400; ov=0; ;;
-    2) mode="Modest"; a_freq=800; c_freq=300; sd_freq=400; ov=0; ;;
-    3) mode="Medium"; a_freq=900; c_freq=333; sd_freq=450; ov=2; ;;
-    4) mode="High";   a_freq=950; c_freq=450; sd_freq=450; ov=6; ;;
-    5) mode="Turbo"; a_freq=1000; c_freq=500; sd_freq=500; ov=6; ;;
-    6) echo "You are warned not to select custom mode."
+  case $opt in  # Using new arm, cor, sdr, ov values(easier to read & short)
+    1) mode="None";   arm=700; cor=250; sdr=400; ov=0; ;;
+    2) mode="Modest"; arm=800; cor=300; sdr=400; ov=0; ;;
+    3) mode="Medium"; arm=900; cor=333; sdr=450; ov=2; ;;
+    4) mode="High";   arm=950; cor=450; sdr=450; ov=6; ;;
+    5) mode="Turbo"; arm=1000; cor=500; sdr=500; ov=6; ;;
+    6) echo "You are warned not to select custom mode."; mode="Custom"
       $rpi_aui/./yn.sh "Do you wish to continue? [y/N]" || cpu_f
       echo -e "\033[91mBe very careful while entering!!\033[0m"; sleep 1
-      mode="Custom" # $a is the user input value
-      custom_ask "Enter the ARM frequency: [700-1200]"; a_freq=$a
-      custom_ask "Enter the Core frequency: [250-500]"; c_freq=$a
-      custom_ask "Enter the SD-RAM frequency: [400-500]"; sd_freq=$a
-      custom_ask "Enter the Over Voltage: [0-6]"; ov=$a
+      custom_ask "Enter the ARM frequency: [700-1200]"; arm=$a   #  user
+      custom_ask "Enter the Core frequency: [250-500]"; cor=$a   #+ input
+      custom_ask "Enter the SD-RAM frequency: [400-500]"; sdr=$a
+      custom_ask "Enter the Over Voltage: [0-8]"; ov=$a
       ;;
     q) ui ;;
     *) echo "You enter an invalid option!"; sleep 1; cpu_f ;;
   esac
 
   # Ask for changes after setting variables
-  echo "You have selected $mode Preset:"
-  echo "arm_freq=$a_freq"
-  echo "core_freq=$c_freq"
-  echo "sdram_freq=$sd_freq"
-  echo "over_voltage=$ov"
-  $rpi_aui/./yn.sh "Are you sure? [y/N]" || ui
+  echo -e "\033[32mYou have selected $mode Preset:\033[m"
+  arm="arm_freq $arm"; echo $arm | tr ' ' =     #  Add "$key $value" to make
+  cor="core_freq $cor"; echo $cor | tr ' ' =    #+ set_conf easier and echo
+  sdr="sdram_freq $sdr"; echo $sdr | tr ' ' =   #+ ' ' in '='
+  ov="over_voltage $ov"; echo $ov | tr ' ' =
+  $rpi_aui/./yn.sh "Are you sure? [y/N]" || cpu_f
 
-  # Apply the changes to /boot/config.txt
-  echo "# $mode Preset
-arm_freq=$a_freq
-core_freq=$c_freq
-sdram_freq=$sd_freq
-over_voltage=$ov" >> /boot/config.txt
-  fin   # finished
+  # Apply the changes to /boot/config.txt in one line(shorter)
+  for i in "$arm" "$cor" "$sdr" "$ov"; do set_config $i; done
 }
 
 function gov() {
@@ -239,7 +238,7 @@ function gov() {
   thank
 }
 
-function ui() {
+function ui() { # User interface for oc.sh
   $rpi_aui/./main.sh title
   echo -e "Press '\033[91mq\033[0m' to quit"
   echo ""
@@ -256,13 +255,15 @@ function ui() {
     q) $rpi_aui/./main.sh title thank; exit 0;;
     *) echo "You selected an invalid option."; sleep 1; ui;;
   esac
-  ## Overclocking Settings
-  echo " Choose from the options "
-  echo ""
 }
 
 
 #----------------------------------------------------------------------------
 # Main
 #----------------------------------------------------------------------------
-$rpi_aui/./main.sh root && ui || exit 1    # enter ui if running as root
+if [ $(stat -fc%t:%T $conf) = $(stat -fc%t:%T /) ]; then    # /boot mounted?
+  echo "Boot partition not mounted. Mounting boot partition..."     # Find &
+  mount $(fdisk -l|grep "mmcblk0.*FAT32"|cut -d' ' -f1) /boot ||    #+ mount
+    echo -e "\e[31mBoot partition not found! Aborting." && exit 1   # /boot?
+fi
+$rpi_aui/./main.sh root && ui || exit 1 # enter ui if running as root
