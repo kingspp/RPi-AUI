@@ -2,6 +2,7 @@
 #---------------------------------------------------------------------------
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
 # SYNOPSIS      : main.sh [root] [title] [thank] [net]
+#                 main.sh pkg_in|pkg_rm|pkg_up pkg1 [pkg2 ...]
 # DESCRIPTION   : Reuse code
 # TODO(pickfire): add colors variable for use in main.sh
 #---------------------------------------------------------------------------
@@ -26,7 +27,7 @@ defsleep=0  # function sleep time
 uisleep=2
 # ------------------------------------------------------------------------ #
 # Color variable for use in main.sh
-# Usage: . main.sh
+# Usage: . main.sh  (still not working)
 # Bold: 1, Underline: 4, Highlight: 7, Blink: 8
 # Color     # Strong(bold)   # Background       # Color Name
 R="\033[91m"; SR="\033[91;1m"; BR="\033[91;1m"  # Red
@@ -39,12 +40,14 @@ W="\033[m"                       # White(reset)
 # ------------------------------------------------------------------------ #
 
 
+#---------------------------------------------------------------------------
 # Functions
+#---------------------------------------------------------------------------
 function root() {   # exit 1 if not running as root
-  echo -en "Checking if user is running as \033[91mROOT\033[0m"; sleep 0.5
-  for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
-  [[ $UID -eq 0 ]] && echo -e "\033[92mUser running as root.\033[0m" || { \
-    echo -e "\033[91mPlease run as root!\033[0m"; exit 1; }
+  #echo -en "Checking if user is running as \033[91mROOT\033[0m"; sleep 0.5
+  #for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
+  [[ $UID -eq 0 ]] && return 0 || { echo -e "\033[91mPlease run as root! \
+Try '\033[32msudo archi\033[31m'\033[0m"; exit 1; }
 }
 
 function net() {   # ping test to google.com
@@ -55,13 +58,12 @@ function net() {   # ping test to google.com
     return 1; }
 }
 
-function title() {  # put whatever title you like here
-  echo -e "\033[92m     ____  ____  _       ___   __  ______                "
-  echo -e "\033[92m    / __ \/ __ \(_)     /   | / / / /  _/   Raspberry Pi "
-  echo -e "\033[92m   / /_/ / /_/ / ______/ /| |/ / / // /    ArchLinux-Arm "
-  echo -e "\033[92m  / _, _/ ____/ /_____/ ___ / /_/ _/ /    [ Ultimate ]   "
-  echo -e "\033[92m /_/ |_/_/   /_/     /_/  |_\____/___/   Installer       "
-  echo -e "\033[0m"; return 0
+function title() { echo -e "\033[92m\
+      ____  ____  _       ___   __  ______
+     / __ \/ __ \(_)     /   | / / / /  _/   The Raspberry PI
+    / /_/ / /_/ / ______/ /| |/ / / // /    Arch Linux ARM
+   / _, _/ ____/ /_____/ ___ / /_/ _/ /    [ Ultimate ]
+  /_/ |_/_/   /_/     /_/  |_\____/___/   Installer\n\033[m"; return 0
 }
 
 function thank() {  # exit 0 if not rebooting
@@ -69,8 +71,22 @@ function thank() {  # exit 0 if not rebooting
   $rpi_aui/./yn.sh "Reboot to apply changes? [y/N]" && reboot || exit 0
 }
 
+function pkg() {    # Package management    USAGE: ./main.sh pkg_in pkg...
+  case $(grep "^ID_LIKE=" /etc/*-release | cut -d= -f2)_${1: -2} in
+    arch_in) echo pacman -S --noconfirm --needed ${*:2} ;;
+    arch_rm) echo pacman -R --noconfirm ${*:2} ;;
+    arch_up) echo pacman -Syu --noconfirm ;;
+    debian_in) echo apt-get -y install ${*:2} ;;
+    debian_rm) echo apt-get -y remove ${*:2} ;;
+    debian_up) apt-get -y update; apt-get -y dist-upgrade ;;
+  esac
+}
 
+
+#---------------------------------------------------------------------------
 # Main
+#---------------------------------------------------------------------------
+[[ ${1:0:3} = "pkg" ]] && pkg $* && exit 0  # Package management
 for i in $*; do
   $i
 done; exit 0    # return success to the system when the loop finish

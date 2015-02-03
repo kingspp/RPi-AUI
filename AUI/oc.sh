@@ -127,7 +127,7 @@ function do_backup() {
 
 function set_config() {   # USAGE: set_config arm_freq 700 ($1:Key,$2:Value)
   # TODO(pickfire): Change this to sed in one line(still no idea,INSANE!)
-  grep -qs $1 $conf && sed -i "/$1=/c $1=$2" $conf || echo "$1=$2" >> $conf
+  grep -qs $1 $conf && sed -i "/^$1=/c $1=$2" $conf || echo "$1=$2" >> $conf
   exit 0    # search $1 and change "$1=*" to "$1=$2" or append "$1=$2" to EOF
 }
 
@@ -135,31 +135,41 @@ function cpu_f() {  # Cpu Frequency function
   $rpi_aui/./main.sh title  # Show the title every time
 
   # The value of $conf(if empty use default) and change to 6 digits in spaces
-  arm=$(sed -n 's/arm_freq=// p' $conf); arm=$(printf %6d ${arm:-700})
-  cor=$(sed -n 's/core_freq=// p' $conf); cor=$(printf %6d ${cor:-250})
-  sdr=$(sed -n 's/sdram_freq=// p' $conf); sdr=$(printf %6d ${sdr:-400})
-  ov=$(sed -n 's/over_voltage=// p' $conf); ov=$(printf %6d ${oc:-0})
+  arm=$(sed -n 's/arm_freq=// p' $conf); arm=$(printf %9d ${arm:-700})
+  cor=$(sed -n 's/core_freq=// p' $conf); cor=$(printf %9d ${cor:-250})
+  sdr=$(sed -n 's/sdram_freq=// p' $conf); sdr=$(printf %9d ${sdr:-400})
+  ov=$(sed -n 's/over_voltage=// p' $conf); ov=$(printf %9d ${oc:-0})
+#  ------------------------------------------------------------------------
+# | Presets          |   None | Modest | Medium |   High |  Turbo |    Now |
+# |------------------|--------|--------|--------|--------|--------|--------|
+# | arm_freq (Mhz)   |    700 |    800 |    900 |    950 |   1000 | $arm |
+# | core_freq (Mhz)  |    250 |    300 |    333 |    450 |    500 | $cor |
+# | sdram_freq (Mhz) |    400 |    400 |    450 |    450 |    500 | $sdr |
+# | over_voltage (V) |      0 |      0 |      2 |      6 |      6 | $ov |
+#  ------------------------------------------------------------------------
   printf "Press '\033[31mq\033[0m' to return to main menu. (abort changes)
 
-  ------------------------------------------------------------------------
- | Presets          |   None | Modest | Medium |   High |  Turbo |    Now |
- |------------------|--------|--------|--------|--------|--------|--------|
- | arm_freq (Mhz)   |    700 |    800 |    900 |    950 |   1000 | $arm |
- | core_freq (Mhz)  |    250 |    300 |    333 |    450 |    500 | $cor |
- | sdram_freq (Mhz) |    400 |    400 |    450 |    450 |    500 | $sdr |
- | over_voltage (V) |      0 |      0 |      2 |      6 |      6 | $ov |
-  ------------------------------------------------------------------------
-  * Custom preset -> ? (\033[31mNOT\033[0m encouraged!)
-  1) None   2) Modest   3) Medium   4) High     5) Turbo    6) Custom"
-  echo -e "\n"; echo -n "Select the Preset [1-6]: "; read -n 1 opt; echo ""
-
+  --------------------------------------------------------------------------
+ | Presets  | ARM (MHz)     | core (MHz)    | sdram (MHz)   | overvolt (V)  |
+ |--------------------------------------------------------------------------|
+ | 1.None   |           700 |           250 |           400 |             0 |
+ | 2.Modest |           800 |           300 |           400 |             0 |
+ | 3.Medium |           900 |           333 |           450 |             2 |
+ | 4.High   |           950 |           450 |           450 |             6 |
+ | 5.Turbo  |          1000 |           500 |           600 |             6 |
+ | 6.Pi2    |          1000 |           500 |           500 |             2 |
+ | \033[32mCurrent\033[m  |     $arm |     $cor |     $sdr |     $ov |
+  --------------------------------------------------------------------------
+  * Custom preset -> ? (\033[31mNOT encouraged!\033[m)"
+  echo -e "\n"; echo -n "Select the Preset [1-7]: "; read -n 1 opt; echo ""
   case $opt in  # Using new arm, cor, sdr, ov values(easier to read & short)
     1) mode="None";   arm=700; cor=250; sdr=400; ov=0; ;;
     2) mode="Modest"; arm=800; cor=300; sdr=400; ov=0; ;;
     3) mode="Medium"; arm=900; cor=333; sdr=450; ov=2; ;;
     4) mode="High";   arm=950; cor=450; sdr=450; ov=6; ;;
     5) mode="Turbo"; arm=1000; cor=500; sdr=500; ov=6; ;;
-    6) echo "You are warned not to select custom mode."; mode="Custom"
+    6) mode="Pi2";   arm=1000; cor=500; sdr=500; ov=2; ;;
+    7) echo "You are warned not to select custom mode."; mode="Custom"
       $rpi_aui/./yn.sh "Do you wish to continue? [y/N]" || cpu_f
       echo -e "\033[91mBe very careful while entering!!\033[0m"; sleep 1
       custom_ask "Enter the ARM frequency: [700-1200]"; arm=$a   #  user
@@ -178,7 +188,6 @@ function cpu_f() {  # Cpu Frequency function
   sdr="sdram_freq $sdr"; echo $sdr | tr ' ' =   #+ ' ' in '='
   ov="over_voltage $ov"; echo $ov | tr ' ' =
   $rpi_aui/./yn.sh "Are you sure? [y/N]" || cpu_f
-
   # Apply the changes to /boot/config.txt in one line(shorter)
   for i in "$arm" "$cor" "$sdr" "$ov"; do set_config $i; done
 }

@@ -1,29 +1,31 @@
-#This is a Feature List 
+#===========================================================================
+# Feature List for the RPi-AUI
+#===========================================================================
 
-##archi.sh
-# Arch Install Script v4.2 offers
-Ping Checking the Device
-Updating the Arch Linux
-Installing SUDO
-Adding User to sudo
-System Utilities
--- archlinux-keyring
---ignore filesystem
---filesystem --force
---bash # To install bash for scripting
---coreutils # To install Core-Utilities
---util-linux # To install Linux-Utilities
---devtools # To install Development Tools
-Partition Manager **
-User Management (refer userm.sh)
-Password Manager **
-User Utilities (refer util.sh)
-Overclocking with Custom Mode (refer oc.sh)
-Change Hostname
-Display Pi v1.1
-Overclocking Pi v1.2
-Utility Pi v1.0
-Command Pi v1.0
+#---------------------------------------------------------------------------
+# AUI/archi.sh v4.2
+#---------------------------------------------------------------------------
+|- Ping Checking the Device
+|- Updating the Arch Linux
+|- Adding User to sudo
+|  |- System Utilities
+|  |- archlinux-keyring
+|  |- ignore filesystem
+|  |- filesystem --force
+|  |- bash # To install bash for scripting
+|  |- coreutils # To install Core-Utilities
+|  |- util-linux # To install Linux-Utilities
+|  `- devtools # To install Development Tools
+|- Partition Manager **
+|- User Management (refer userm.sh)
+|- Password Manager **
+|- User Utilities (refer util.sh)
+|- Overclocking with Custom Mode (refer oc.sh)
+|- Change Hostname
+|- Display Pi v1.1
+|- Overclocking Pi v1.2
+|- Utility Pi v1.0
+`- Command Pi v1.0
 
 
 ##oc.sh

@@ -23,10 +23,12 @@
 # Run this script after your first boot with archlinux (as root)
 # Variables
 #----------------------------------------------------------------------------
-rpi_aui=/opt/RPi-AUI/AUI; rpi_doc=/opt/RPi-AUI/doc
+# Defaults
+rpi_aui=/opt/RPi-AUI/AUI; aui_doc=/opt/RPi-AUI/doc
 defsleep=0;
 uisleep=2;
 r='\033[91m'; g='\033[92m'; w='\033[0m' # Colours
+
 
 #----------------------------------------------------------------------------
 # Functions
@@ -36,12 +38,12 @@ function update() { # Self-update
   git pull
 }
 
-function perm() {   # Change permission
-  $rpi_aui/./main.sh title
-  echo "Changing Permissions..."
-  chmod +x *.sh *.py
-  sleep $defsleep
-}
+#function perm() {   # Change permission
+#  $rpi_aui/./main.sh title
+#  echo "Changing Permissions..."
+#  chmod +x *.sh *.py
+#  sleep $defsleep
+#}
 
 function checkr() { # Check if user is running as root
   [[ "$UID" != 0 ]] && { echo "Please run as root!"; exit 1; }
@@ -84,33 +86,37 @@ function checkr() { # Check if user is running as root
 #  fi
 #}
 
-function pingcheck() {
-  $rpi_aui/./main.sh title
-  echo -e "To check if the pi got Internet??!!\n"
-  ping -c 3 google.com 2>/dev/null && { echo -e "Success! Pi's got net!!"; \
-    sleep $uisleep; ui; } || \
-    { echo "Fail! Please connect to the Internet and Try Again"; exit 1; }
-}
+#function pingcheck() {
+#  $rpi_aui/./main.sh title
+#  echo -e "To check if the pi got Internet??!!\n"
+#  ping -c 3 google.com 2>/dev/null && { echo -e "Success! Pi's got net!!"; \
+#    sleep $uisleep; ui; } || \
+#    { echo "Fail! Please connect to the Internet and Try Again"; exit 1; }
+#}
 
 function defins() { # Default Installation
   $rpi_aui/./main.sh title
-  $rpi_aui/./yn.sh "Do you want pacman to be in colours? [Y/n]" && \
-    sed -i 's/#Color/Color/g' /etc/pacman.conf
-  echo "Updating Arch Linux to its Latest Release"
-  echo " "
-  pacman -Syu --noconfirm  # To update the Arch Linux to the latest Release
-  sleep $defsleep
-  echo "Installing utilities"
-  echo "Packages that are going to be install: "
-  echo "1. archlinuxarm-keyring & archlinux-keyring"
-  echo "2. bash - To install bash for scripting"
-  echo "3. coreutils - To install Core Utilities"
-  echo "4. util-linux - To install Linux Utilities"
-  echo "5. devtools - To install Development Tools"
-  pacman-key --init
-  pacman -S --noconfirm archlinux-keyring archlinux
-  pacman-key --populate archlinux
-  pacman -S --noconfirm --needed bash coreutils util-linux devtools git
+  echo "Updating $(grep "^ID=" /etc/*-release|cut -d= -f2)..."
+  $rpi_aui/main.sh pkg_up   # Update distribution
+  sleep $defsleep; echo "Installing base packages:
+1. bash - for scripting         3. util-linux - Linux Utilities
+2. coreutils - Core Utilities"
+  $rpi_aui/main.sh pkg_in bash coreutils util-linux git
+
+  # Different initialisation for different distribution
+  case $(grep "^ID_LIKE=" /etc/*-release | cut -d = -f 2) in
+    arch) pac=/etc/pacman.conf
+      $rpi_aui/./yn.sh "Pacman uses candy instead of bored hashes? [Y/n]" &&
+        sed -i '/# Misc/a ILoveCandy' $pac || sed -i 's/ILoveCandy/#&/' $pac
+      $rpi_aui/./yn.sh "Do you want pacman to be in colours? [Y/n]" &&
+        sed -i 's/#Color/Color/' $pac || sed -i 's/^Color/#&/' $pac
+      echo "Installing archlinux-keyring..."
+      pacman-key --init
+      $rpi_aui/main.sh pkg_in archlinux-keyring archlinux
+      pacman-key --populate archlinux
+      ;;
+    debian) ;;
+  esac
   sleep $defsleep
 }
 
@@ -141,11 +147,6 @@ function partm() {
 #  ui
 #}
 
-function util() {
-  $rpi_aui/./main.sh title
-  $rpi_aui/./util.sh
-}
-
 function hname() {
   echo "Your current hostname is:" $(hostname)
   $rpi_aui/./yn.sh "Do you wish to change the hostname? [y/N]" || ui
@@ -156,7 +157,6 @@ function hname() {
 }
 
 function ui() { # User Interface
-  # http://stackoverflow.com/questions/226703/how-do-i-prompt-for-input-in-a-linux-shell-script
   $rpi_aui/./main.sh title
   echo "Press q to quit"
   echo -e " $r**$w --> To do (Be Cautious)"
@@ -177,10 +177,9 @@ function ui() { # User Interface
   echo -e ""
   echo -n "Select an option: "; read opt
   case $opt in
-    1) echo -e "Ping Check Selected\n"; pingcheck;;
+    1) $rpi_aui/main.sh net; sleep 1 ;;
 
-    2) $rpi_aui/./main.sh title
-    $rpi_aui/./yn.sh "Do you want to update Arch? [Y/n]" || ui # Else
+    2) $rpi_aui/./yn.sh "Do you want to update Arch? [Y/n]" || ui # Else
     echo "Updating Arch Linux to its Latest Release..."
     pacman -Syu --noconfirm; sleep $defsleep    # Update Arch Linux & sleep
     echo " You have the latest Arch ;) "; ui    # Back to user interface
@@ -210,17 +209,15 @@ function ui() { # User Interface
 
     8) $rpi_aui/./resize.sh;;
 
-    9) echo "Default Installation: "
-    pingcheck
-    defins
-    # addu # What does this mean?
-    $rpi_aui/./oc.sh
-    passm
-    util
-    hname
-    read s
-    ui
-    ;;
+    9) echo "Default Installation: "; $rpi_aui/main.sh net; defins
+      $rpi_aui/oc.sh
+      $rpi_aui/yn.sh "Do you want to change $r\Root$w Password? [y/N]" &&
+        passwd
+      $rpi_aui/util.sh
+      hname
+      read s
+      ui
+      ;;
 
     10) echo "Checking for AUI Updates . . "; update
     echo "Update Complete!"
@@ -239,12 +236,9 @@ function ui() { # User Interface
     ui
     ;;
 
-    o) $rpi_aui/./yn.sh "Do you want to OverClock PI? [y/n]" || ui
-    echo "You have selected Overclock Pi"
-    sleep $uisleep
-    $rpi_aui/./oc.sh
-    ui
-    ;;
+    o) $rpi_aui/yn.sh "Do you want to OverClock PI? [y/N]" || ui
+      sleep $uisleep && $rpi_aui/./oc.sh
+      ;;
 
     u) echo "You have selected Utility Pi "
     sleep $uisleep
@@ -264,16 +258,16 @@ function ui() { # User Interface
     ;;
 
     r) echo "You have selected Resize Pi "
-    sleep $uisleep
-    $rpi_aui/./resize.sh
-    ui
-    ;;
+      sleep $uisleep
+      $rpi_aui/./resize.sh
+      ui
+      ;;
 
     m) echo "You have selected User Pi "
-    sleep $uisleep
-    $rpi_aui/./userm.sh
-    ui
-    ;;
+      sleep $uisleep
+      $rpi_aui/./userm.sh
+      ui
+      ;;
 
     t) [[ ! -f /etc/localtime ]] && echo "You have not set your timezone." ||
     echo "Your current localtime:" $(basename `realpath /etc/localtime`)
@@ -298,7 +292,4 @@ function ui() { # User Interface
 #----------------------------------------------------------------------------
 # Main
 #----------------------------------------------------------------------------
-echo "To check if user is running as Root"; sleep 1; checkr
-perm    # Title in perm
-sleep $defsleep
-ui  # Start the user interface
+chmod +x $rpi_aui/*; $rpi_aui/main.sh root && ui || exit 1
