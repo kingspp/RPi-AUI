@@ -39,6 +39,10 @@ echo -n "Please Enter your Editor  : " && read e
 [[ ! -z "$us" ]] && git config --global user.name "$us"
 [[ ! -z "$em" ]] && git config --global user.email "$em"
 hash $e 2>/dev/null && git config --global core.editor $(which $e)
+# TODO(pickfire): Automated os checking
+# If Unix/Mac: git config --global core.autocrlf "input"
+# If Windows: git config --global core.autocrlf "true"
+git config --global core.safecrlf "true"
 git config --global color.ui "auto"
 git config --global color.branch "auto"
 git config --global color.status "auto"

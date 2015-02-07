@@ -73,11 +73,11 @@ function thank() {  # exit 0 if not rebooting
 
 function pkg() {    # Package management    USAGE: ./main.sh pkg_in pkg...
   case $(grep "^ID_LIKE=" /etc/*-release | cut -d= -f2)_${1: -2} in
-    arch_in) echo pacman -S --noconfirm --needed ${*:2} ;;
-    arch_rm) echo pacman -R --noconfirm ${*:2} ;;
-    arch_up) echo pacman -Syu --noconfirm ;;
-    debian_in) echo apt-get -y install ${*:2} ;;
-    debian_rm) echo apt-get -y remove ${*:2} ;;
+    arch_in) pacman -S --noconfirm --needed ${*:2} ;;
+    arch_rm) pacman -R --noconfirm ${*:2} ;;
+    arch_up) pacman -Syu --noconfirm ;;
+    debian_in) apt-get -y install ${*:2} ;;
+    debian_rm) apt-get -y remove ${*:2} ;;
     debian_up) apt-get -y update; apt-get -y dist-upgrade ;;
   esac
 }
