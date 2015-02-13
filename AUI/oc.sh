@@ -125,10 +125,10 @@ function do_backup() {
   sleep 1
 }
 
-function set_config() {   # USAGE: set_config arm_freq 700 ($1:Key,$2:Value)
-  # TODO(pickfire): Change this to sed in one line(still no idea,INSANE!)
-  grep -qs $1 $conf && sed -i "/^$1=/c $1=$2" $conf || echo "$1=$2" >> $conf
-  exit 0    # search $1 and change "$1=*" to "$1=$2" or append "$1=$2" to EOF
+function set_config() {
+  # USAGE: set_config arm_freq 700 $conf ($1:Key, $2:Value, $3:File)
+  grep -q "^$1=" $3 && sed -i "/^$1=/c $1=$2" $3 || echo "$1=$2" >> $3
+  return 0  # search $1 and change "$1=*" to "$1=$2" or append "$1=$2" to EOF
 }
 
 function cpu_f() {  # Cpu Frequency function
@@ -189,7 +189,7 @@ function cpu_f() {  # Cpu Frequency function
   ov="over_voltage $ov"; echo $ov | tr ' ' =
   $rpi_aui/./yn.sh "Are you sure? [y/N]" || cpu_f
   # Apply the changes to /boot/config.txt in one line(shorter)
-  for i in "$arm" "$cor" "$sdr" "$ov"; do set_config $i; done
+  for i in "$arm" "$cor" "$sdr" "$ov"; do set_config $i $conf; done
 }
 
 function gov() {
