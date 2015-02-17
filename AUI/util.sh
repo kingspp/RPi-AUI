@@ -1,27 +1,34 @@
 #!/bin/bash
+# Modified by Ivan Tham <pickfire@riseup.net> - Tue Feb  3 01:43:56 UTC 2015
 # Utility Pi v2.0
-#This program is free software: you can redistribute it and/or modify
-#it under the terms of the GNU General Public License as published by
-#the Free Software Foundation, either version 3 of the License, or
-#(at your option) any later version.
+# DESCRIPTION	: Utility
+#---------------------------------------------------------------------------
+#    Copyright (C) Prathyush 2015
 #
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
 #
-#You should have received a copy of the GNU General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#-------------------------------------------------------------------------------
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#----------------------------------------------------------------------------
 # Run this script after your first boot with archlinux (as root)
-
-#------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------
+# Variables
+rpi_aui=/opt/RPi-AUI/AUI; aui_doc=/opt/RPi-AUI/doc
 #Default Variables
 defsleep=1
 
-#Functions
-function top()
-{
+#----------------------------------------------------------------------------
+# Functions
+#----------------------------------------------------------------------------
+function top() {
 clear
 echo "##############################################################"
 echo "##   Welcome to Utility Pi v2.0                             ##"
@@ -65,34 +72,31 @@ clear
 exit
 }
 
-function view
-{
-top
-echo " Utilities available:"
-echo ""
-echo "1. Transmission - A torrent Client                     a.Install Alsa-Mixer"
-echo "2. Webmin - Administer Raspberry Pi from browser"
-echo "3. Samba - Windows Remote Client"
-echo "4. NTFS-3G - Mount NTFS Partitions"
-echo "5. Git - Git client for Github"
-echo "6. VSFTPD - FTP client for Pi"
-echo "7. Nano - File Editor for Pi"
-echo "8. XRDP - Windows RDP Client for Arch"
-echo "9. XBMC - An awesome Media manager for Raspberry pi"
-echo "10.Aria2 - A light weight torrent manager"
-echo ""
-echo "Please Select from the options [1-7]: "
-read opt
-echo ""
-case $opt in
-1)  echo "You have Selected Transmission"
-ask
-echo "Installing Transmission . . . "
-pacman -S --noconfirm --needed transmission-cli 
-printf "Enabling Transmission Service . . . "
-systemctl enable transmission 
-ui
-;;
+function util_ui() {
+  $rpi_aui/./main.sh title
+  echo -en " Utilities available:
+
+1. Transmission - A torrent Client                     a.Install Alsa-Mixer
+2. Webmin - Administer Raspberry Pi from browser
+3. Samba - Windows Remote Client
+4. NTFS-3G - Mount NTFS Partitions
+5. Git - Git client for Github
+6. VSFTPD - FTP client for Pi
+7. Nano - File Editor for Pi
+8. XRDP - Windows RDP Client for Arch
+9. XBMC - An awesome Media manager for Raspberry pi
+10.Aria2 - A light weight torrent manager
+
+Please Select from the options [1-7]: "; read opt; echo""
+  case $opt in
+    1) echo "You have selected Transmission."
+      $rpi_aui/yn.sh "Do you want do install transmission? [y/N]" || util_ui
+      echo "Installing Transmission . . . "
+      pacman -S --noconfirm --needed transmission-cli 
+      printf "Enabling Transmission Service . . . "
+      systemctl enable transmission
+      util_ui
+      ;;
 
 2)  echo "You have Selected Webmin"
 ask
@@ -224,7 +228,8 @@ q)thank
 ;;
 esac
 }
-#-----------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------
+# Main
+#----------------------------------------------------------------------------
 checkr
 ui
-

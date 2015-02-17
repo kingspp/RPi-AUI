@@ -3,6 +3,7 @@
 *.log
 *.log.*
 *.sig
+*.pyc
 *.swp
 *~
 pkg/

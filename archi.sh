@@ -156,12 +156,6 @@ function hname() {
   echo "Your new hostname is:" $(hostname)
 }
 
-function set_locale() {	# Set the locale
-  # TODO(pickfire): Add function to set locale
-  # https://wiki.gentoo.org/wiki/Localization/HOWTO
-  # https://wiki.archlinux.org/index.php/Locale
-}
-
 function ui() { # User Interface
   $rpi_aui/./main.sh title
   echo "Press q to quit"
