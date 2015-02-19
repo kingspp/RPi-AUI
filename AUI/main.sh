@@ -50,10 +50,10 @@ function root() {   # exit 1 if not running as root
 Try '\033[32msudo archi\033[31m'\033[0m"; exit 1; }
 }
 
-function net() {   # ping test to google.com
+function net() {   # ping test to 8.8.8.8 (google.com)
   echo -en "Checking for internet connection"; sleep 0.2
-  for i in $(seq 3); do echo -n '.'; sleep 1; done  # waiting time
-  ping -c 1 google.com &>/dev/null && { echo -e "${G}Success!\n$W"; return \
+  for i in $(seq 3); do echo -n '.'; sleep 0.8; done  # waiting time
+  ping -c 3 8.8.8.8 &>/dev/null && { echo -e "${G}Success!\n$W"; return \
     0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W";
     return 1; }
 }

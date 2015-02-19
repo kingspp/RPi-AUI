@@ -147,12 +147,8 @@ function partm() {
 #  ui
 #}
 
-function hname() {
-  echo "Your current hostname is:" $(hostname)
-  $rpi_aui/./yn.sh "Do you wish to change the hostname? [y/N]" || ui
-  cp /etc/hostname /etc/hostname.old # Create a backup for hostname
-  rm /etc/hostname; echo -n "Enter the new hostname:"; read hn
-  echo "$hn" > /etc/hostname; echo
+function hname() {  # Change hostname the systemd way
+  read -p "Enter the new hostname: " hn && hostnamectl set-hostname $hn
   echo "Your new hostname is:" $(hostname)
 }
 
@@ -160,42 +156,41 @@ function set_locale() {	# Set the locale
   # TODO(pickfire): Add function to set locale
   # https://wiki.gentoo.org/wiki/Localization/HOWTO
   # https://wiki.archlinux.org/index.php/Locale
+  echo "Still in progress"
 }
 
 function ui() { # User Interface
   $rpi_aui/./main.sh title
-  echo "Press q to quit"
-  echo -e " $r**$w --> To do (Be Cautious)"
-  echo ""
-  echo -e "########################################################"
-  echo -e "1. Ping Check                  c. Command Pi v1.0 $r**$w"
-  echo -e "2. Arch Linux Update           d. Display Pi v1.5       "
-  echo -e "3. Partition Manager $r**$w        o. OverClocking Pi v2.0  "
-  echo -e "4. User Management             u. Utility Pi v2.0       "
-  echo -e "5. Change Root Password        l. LXDE on LAN v1.0      "
-  echo -e "6. Change Locale $r**$w            p. Install pi4j v1.0     "
-  echo -e "7. Hostname                    r. Resize Pi v1.1        "
-  echo -e "8. Resize root file system $r**$w  m. User Pi v2.0          "
-  echo -e "9. Default Installation        t. Change timezone       "
-  echo -e "10.Update AUI $r**$w               v. View Credits $r**$w   "
-  echo -e "99.Changelog $r**$w                                     "
-  echo -e "########################################################"
-  echo -e ""
-  echo -n "Select an option: "; read opt
+  W="$r**$w"; echo -e "Press$r q$w to quit
+  $W --> To do (Be Cautious)
+
+########################################################
+1. Ping Check                  c. Command Pi v1.0 $W
+2. Arch Linux Update           d. Display Pi v1.5
+3. Partition Manager $W        o. OverClocking Pi v2.0
+4. User Management             u. Utility Pi v2.0
+5. Change Root Password        l. LXDE on LAN v1.0
+6. Change Locale $W            p. Install pi4j v1.0
+7. Hostname                    r. Resize Pi v1.1
+8. Resize root file system $W  m. User Pi v2.0
+9. Default Installation        t. Change timezone
+10.Update AUI $W               l. Change locale
+99.Changelog $W                v. View Credits
+########################################################"
+  read -p "Select an option: " opt
   case $opt in
     1) $rpi_aui/main.sh net; sleep 1 ;;
 
     2) $rpi_aui/./yn.sh "Do you want to update Arch? [Y/n]" || ui # Else
-    echo "Updating Arch Linux to its Latest Release..."
-    pacman -Syu --noconfirm; sleep $defsleep    # Update Arch Linux & sleep
-    echo " You have the latest Arch ;) "; ui    # Back to user interface
-    ;;
+      echo "Updating Arch Linux to its Latest Release..."
+      pacman -Syu --noconfirm && echo " You have the latest Arch ;) "
+      ;;
 
     3) $rpi_aui/./yn.sh "You are $rWARNED$w not to manage Partitions. Are you sure? [y/N]" || ui # Too long! -> Need to shorten
-    partm
-    read s
-    ui
-    ;;
+      partm
+      read s
+      ui
+      ;;
 
     4) echo "User Management"; echo
     $rpi_aui/./userm.sh; ui    # Return to user interface
@@ -211,7 +206,10 @@ function ui() { # User Interface
     ui
     ;;
 
-    7) hname; ui;;
+    7) echo "Your current hostname is:" $(hostname)
+      $rpi_aui/./yn.sh "Do you wish to change the hostname? [y/N]" || ui
+      hname
+      ;;
 
     8) $rpi_aui/./resize.sh;;
 
@@ -290,12 +288,14 @@ function ui() { # User Interface
     $rpi_aui/./timezone.py # Run timezone.py
     ;;
 
-    q) $rpi_aui/./main.sh title thank;;
+    v) less $aui_doc/AUTHORS ;;
+
+    q) $rpi_aui/./main.sh title thank; exit ;;
   esac
 }
 
 
 #----------------------------------------------------------------------------
-# Main
+# Main - forever in ui loop
 #----------------------------------------------------------------------------
-chmod +x $rpi_aui/*; $rpi_aui/main.sh root && ui || exit 1
+chmod +x $rpi_aui/*; $rpi_aui/main.sh root && while : ; do ui; done || exit 1
