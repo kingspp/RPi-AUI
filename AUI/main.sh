@@ -49,14 +49,14 @@ function root() {   # exit 1 if not running as root
   #echo -en "Checking if user is running as \033[91mROOT\033[0m"; sleep 0.5
   #for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
   [[ $UID -eq 0 ]] && return 0 || { echo -e "\033[91mPlease run as root! \
-Try '\033[32msudo archi\033[31m'\033[0m"; exit 1; }
+Try '\033[32msudo archi\033[31m'\033[0m" >&2; exit 1; }
 }
 
 function net() {   # ping test to 8.8.8.8 (google.com)
   echo -en "Checking for internet connection"; sleep 0.2
   for i in $(seq 3); do echo -n '.'; sleep 0.8; done  # waiting time
   ping -c 3 8.8.8.8 &>/dev/null && { echo -e "${G}Success!\n$W"; return \
-    0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W";
+    0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W" >&2;
     return 1; }
 }
 

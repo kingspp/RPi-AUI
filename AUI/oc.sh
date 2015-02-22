@@ -271,8 +271,8 @@ function ui() { # User interface for oc.sh
 # Main
 #----------------------------------------------------------------------------
 if [ $(stat -fc%t:%T $conf) = $(stat -fc%t:%T /) ]; then    # /boot mounted?
-  echo "Boot partition not mounted. Mounting boot partition..."     # Find &
+  echo "Boot partition not mounted. Mounting boot partition..." >&2 # Find &
   mount $(fdisk -l|grep "mmcblk0.*FAT32"|cut -d' ' -f1) /boot ||    #+ mount
-    echo -e "\e[31mBoot partition not found! Aborting." && exit 1   # /boot?
-fi
+    { echo -e "\e[31mBoot partition not found! Aborting." >&2; exit 1; }
+fi  # Find and mount /boot else return error
 $rpi_aui/./main.sh root && ui || exit 1 # enter ui if running as root

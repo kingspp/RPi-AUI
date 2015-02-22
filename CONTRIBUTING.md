@@ -15,6 +15,7 @@ Coding Style
  - **Comments** are *good* (Easier to understand for newbie)
  - *Two spaces* for indentation
  - ***No Tabs!*** Tabs are too stylish
+ - Follow the [BASH FAQ practices](www.tinyurl.com/bashfaq)
 
 [issue]:    https://github.com/kingspp/RPi-AUI/issues
 [pull]:     https://github.com/kingspp/RPi-AUI/pulls
