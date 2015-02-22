@@ -4,12 +4,11 @@ Raspberry-Pi-AUI v6.2
 
 Steps to install Raspberry-Pi-AUI:
 ----------------------------------
-
 #### Installation via `wget`:
 ```
 wget -O - https://raw.githubusercontent.com/kingspp/RPi-AUI/master/aui-setup.sh | sudo bash
 ```
-(if you get error regarding **wget**, see the [note](https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/README.md#note) in the bottom)
+(if you get error regarding **wget**, see the [note](#note) in the bottom)
 
 #### Installation via `curl`:
 ```
@@ -24,9 +23,9 @@ aui-oc    | OverClocking UI
 aui-userm | Usermanagement UI
 aui-util  | Utility Manager UI
 
-How to commit to the repository?
---------------------------------
-Coming soon...
+How to contribute?
+------------------
+Take a look at [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 Note
 ----
@@ -37,5 +36,4 @@ sudo pacman -Syu wget
 
 Milestone
 ---------
-- [ ] [Commit to the repository](https://github.com/kingspp/Raspberry-Pi-AUI/blob/master/README.md#how-to-commit-to-the-repository)
-- [ ] Improve UI
+ - [ ] Improve UI

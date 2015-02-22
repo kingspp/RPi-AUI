@@ -34,8 +34,8 @@ r='\033[91m'; g='\033[92m'; w='\033[0m' # Colours
 # Functions
 #----------------------------------------------------------------------------
 function update() { # Self-update
-  cd $rpi_aui
-  git pull
+  hash git 2>/dev/null || $pkg_in git # Install git if not installed
+  cd $rpi_aui && git pull
 }
 
 #function perm() {   # Change permission
@@ -98,12 +98,12 @@ function defins() { # Default Installation
   $rpi_aui/./main.sh title
   echo "Updating $(grep "^ID=" /etc/*-release|cut -d= -f2)..."
   $rpi_aui/main.sh pkg_up   # Update distribution
-  sleep $defsleep; echo "Installing base packages:
-1. bash - for scripting         3. util-linux - Linux Utilities
-2. coreutils - Core Utilities"
-  $rpi_aui/main.sh pkg_in bash coreutils util-linux git
+  $rpi_aui/main.sh pkg_de   # Package management initialization
+  sleep $defsleep; echo "Installing base and base-devel packages..."
+  $rpi_aui/main.sh pkg_in base base-devel
 
   # Different initialisation for different distribution
+  # TODO: Add this to tips && tricks
   case $(grep "^ID_LIKE=" /etc/*-release | cut -d = -f 2) in
     arch) pac=/etc/pacman.conf
       $rpi_aui/./yn.sh "Pacman uses candy instead of bored hashes? [Y/n]" &&
@@ -111,9 +111,7 @@ function defins() { # Default Installation
       $rpi_aui/./yn.sh "Do you want pacman to be in colours? [Y/n]" &&
         sed -i 's/#Color/Color/' $pac || sed -i 's/^Color/#&/' $pac
       echo "Installing archlinux-keyring..."
-      pacman-key --init
-      $rpi_aui/main.sh pkg_in archlinux-keyring archlinux
-      pacman-key --populate archlinux
+      $rpi_aui/main.sh pkg_in archlinuxarm-keyring
       ;;
     debian) ;;
   esac

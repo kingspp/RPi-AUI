@@ -2,7 +2,8 @@
 #---------------------------------------------------------------------------
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
 # SYNOPSIS      : main.sh [root] [title] [thank] [net]
-#                 main.sh pkg_in|pkg_rm|pkg_up pkg1 [pkg2 ...]
+#                 main.sh pkg_in|pkg_rm pkg1 [pkg2 ...]
+#                 main.sh pkg_up|pkg_de
 # DESCRIPTION   : Reuse code
 # TODO(pickfire): add colors variable for use in main.sh
 #---------------------------------------------------------------------------
@@ -28,6 +29,7 @@ uisleep=2
 # ------------------------------------------------------------------------ #
 # Color variable for use in main.sh
 # Usage: . main.sh  (still not working)
+# TODO: find a way to use in other scripts
 # Bold: 1, Underline: 4, Highlight: 7, Blink: 8
 # Color     # Strong(bold)   # Background       # Color Name
 R="\033[91m"; SR="\033[91;1m"; BR="\033[91;1m"  # Red
@@ -76,6 +78,7 @@ function pkg() {    # Package management    USAGE: ./main.sh pkg_in pkg...
     arch_in) pacman -S --noconfirm --needed ${*:2} ;;
     arch_rm) pacman -R --noconfirm ${*:2} ;;
     arch_up) pacman -Syu --noconfirm ;;
+    arch_de) pacman-key --init ;;
     debian_in) apt-get -y install ${*:2} ;;
     debian_rm) apt-get -y remove ${*:2} ;;
     debian_up) apt-get -y update; apt-get -y dist-upgrade ;;
