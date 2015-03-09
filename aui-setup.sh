@@ -1,5 +1,7 @@
 #!/bin/bash
 # Utility Pi v1.5
+# Description:  Install or uninstall RPi-AUI
+# Usage:        ./aui-setup.sh --help
 #---------------------------------------------------------------------------
 #    Copyright (C) Prathyush 2015
 #
@@ -19,6 +21,7 @@
 # Run this script after your first boot with archlinux (as root)
 #----------------------------------------------------------------------------
 # Default Variables
+aui_path=/opt
 defsleep=1
 
 
@@ -27,32 +30,37 @@ defsleep=1
 #---------------------------------------------------------------------------
 function thank() {
   echo ""
-  echo ""
   echo "Thank You"
   echo "By Kingspp"
   sleep 1.5
   clear
-  exit
+  exit 0
 }
 
-function ask() {
-echo "Are you sure? [Y/n]: "; read ch -n 1
-[[ $ch == [Yy] ]] && echo "" || thank
+function do_uninstall() {
+  echo "Uninstall is still in progress."
+  exit 0
+}
+
+function do_help() {
+  echo "Usage: $0 [uninstall|help]
+Run without any argument will default to installtion."
+  exit 0
 }
 
 
 #---------------------------------------------------------------------------
 # Main
 #---------------------------------------------------------------------------
-# Check if user running as root
-[[ "$UID" -ne 0 ]] && { echo "Please run as root"; exit 1; }
-echo "User running as root!!"
-echo "Got Superuser ability !!"
-echo ""
-sleep 1
+# Help and uninstallation
+[[ $# -gt 1 || $1 == *h* ]] && do_help  # Help if 'h' is specified
+[[ $1 == *uninstall ]] && do_uninstall  # Uninstall if specified
+[[ $# -gt 0 && -n $1 ]] && do_help      # Help for those enter nonsense
+
+# Root privilege
+[[ $UID -ne 0 ]] && { echo -e "\e[31mPlease run as root!\e[m"; exit 1; }
 
 # Print the title
-clear
 echo ""
 echo "##############################################################"
 echo "##   Welcome to Setup Pi v1.0                               ##"
@@ -61,20 +69,21 @@ echo "##############################################################"
 echo "  "
 sleep 1
 
-echo "Do you want to install Arch Linux Ultimate Install?"
-ask
-hash git 2>/dev/null && { echo "Installing Git..."; pacman -S --noconfirm git; }
-cd /opt
+# Confirmation for installation
+read -p "Do you want to install Arch Linux Ultimate Install? " -e -n 1 ch
+[[ $ch != [Yy] ]] && thank
+
+# Install dependencies
+hash git 2>/dev/null || { echo "Installing Git..."; pacman -S --noconfirm git; }
 
 # Clone the repository and setup
-git clone https://github.com/kingspp/RPi-AUI
-cd /opt/RPi-AUI/AUI/
+cd /opt && git clone https://github.com/kingspp/RPi-AUI && cd RPi-AUI/AUI
 chmod +x archi.sh
-ln -s /opt/Raspberry-Pi-AUI/AUI/archi.sh /usr/bin/aui
-ln -s /opt/Raspberry-Pi-AUI/AUI/disp.sh /usr/bin/aui-disp
-ln -s /opt/Raspberry-Pi-AUI/AUI/oc.sh /usr/bin/aui-oc
-ln -s /opt/Raspberry-Pi-AUI/AUI/userm.sh /usr/bin/aui-userm
-ln -s /opt/Raspberry-Pi-AUI/AUI/util.sh /usr/bin/aui-util
+ln -s /opt/RPi-AUI/AUI/archi.sh /usr/bin/aui
+ln -s /opt/RPi-AUI/AUI/disp.sh /usr/bin/aui-disp
+ln -s /opt/RPi-AUI/AUI/oc.sh /usr/bin/aui-oc
+ln -s /opt/RPi-AUI/AUI/userm.sh /usr/bin/aui-userm
+ln -s /opt/RPi-AUI/AUI/util.sh /usr/bin/aui-util
 echo "Installation is complete."
 sleep 2
 aui

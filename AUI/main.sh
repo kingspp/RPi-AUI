@@ -2,7 +2,8 @@
 #---------------------------------------------------------------------------
 # Modified by Ivan Tham <pickfire@riseup.net> - Sun Jan 18 09:40:33 UTC 2015
 # SYNOPSIS      : main.sh [root] [title] [thank] [net]
-#                 main.sh pkg_in|pkg_rm|pkg_up pkg1 [pkg2 ...]
+#                 main.sh pkg_in|pkg_rm pkg1 [pkg2 ...]
+#                 main.sh pkg_up|pkg_de
 # DESCRIPTION   : Reuse code
 # TODO(pickfire): add colors variable for use in main.sh
 #---------------------------------------------------------------------------
@@ -28,6 +29,7 @@ uisleep=2
 # ------------------------------------------------------------------------ #
 # Color variable for use in main.sh
 # Usage: . main.sh  (still not working)
+# TODO: find a way to use in other scripts
 # Bold: 1, Underline: 4, Highlight: 7, Blink: 8
 # Color     # Strong(bold)   # Background       # Color Name
 R="\033[91m"; SR="\033[91;1m"; BR="\033[91;1m"  # Red
@@ -47,14 +49,14 @@ function root() {   # exit 1 if not running as root
   #echo -en "Checking if user is running as \033[91mROOT\033[0m"; sleep 0.5
   #for i in $(seq 3); do echo -n '.'; sleep 1; done  # for some waiting time
   [[ $UID -eq 0 ]] && return 0 || { echo -e "\033[91mPlease run as root! \
-Try '\033[32msudo archi\033[31m'\033[0m"; exit 1; }
+Try '\033[32msudo archi\033[31m'\033[0m" >&2; exit 1; }
 }
 
-function net() {   # ping test to google.com
+function net() {   # ping test to 8.8.8.8 (google.com)
   echo -en "Checking for internet connection"; sleep 0.2
-  for i in $(seq 3); do echo -n '.'; sleep 1; done  # waiting time
-  ping -c 1 google.com &>/dev/null && { echo -e "${G}Success!\n$W"; return \
-    0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W";
+  for i in $(seq 3); do echo -n '.'; sleep 0.8; done  # waiting time
+  ping -c 3 8.8.8.8 &>/dev/null && { echo -e "${G}Success!\n$W"; return \
+    0; } || { echo -e "${R}Failure! Please connect to the Internet!\n$W" >&2;
     return 1; }
 }
 
@@ -76,6 +78,7 @@ function pkg() {    # Package management    USAGE: ./main.sh pkg_in pkg...
     arch_in) pacman -S --noconfirm --needed ${*:2} ;;
     arch_rm) pacman -R --noconfirm ${*:2} ;;
     arch_up) pacman -Syu --noconfirm ;;
+    arch_de) pacman-key --init ;;
     debian_in) apt-get -y install ${*:2} ;;
     debian_rm) apt-get -y remove ${*:2} ;;
     debian_up) apt-get -y update; apt-get -y dist-upgrade ;;
